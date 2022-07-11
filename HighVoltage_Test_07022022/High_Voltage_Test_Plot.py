@@ -63,9 +63,9 @@ import argparse
 #import csv
 #import types
 #import os
-import warnings
-warnings.filterwarnings("ignore")
-#print('...')
+#import warnings
+#warnings.filterwarnings("ignore")
+print('...')
 
 #Python libraries
 import matplotlib.pyplot as plt
@@ -112,97 +112,149 @@ with open(filename2) as f2:
         data_dict['C']['ADC_Voltage'].append(C[1]) 
         data_dict['C']['ADC_Current'].append(C[2]) 
 
-
-
 #Define a plotting function to make scatter plot and fit a line to it
 def plotter(x, y, name, xlabel='x_val', ylabel='y_val', supply='HV', x_name='input', y_name='data'):
     '''
     Simple plot maker. Will make a scatter plot and 
     fit the data with numpy.polyfit()
     '''
+    
     print("Plotting...")
     theta = np.polyfit(x, y, 1)
     y_line = theta[1] + theta[0] * np.array(x)
     res = y - y_line
-
+    #vprint(res)
+    
     plt.figure(1, figsize = (8,6))
     plt.scatter(x, y, s=10.0)
     plt.plot(x,y_line, color='red', linewidth=1.0)
-    
     plt.title("{0}".format(name))
     plt.xlabel(xlabel, labelpad = 0.5, fontsize = 10)
     plt.ylabel(ylabel, labelpad = 0.5, fontsize = 10)
-    plt.grid(visible=True, which='both', axis='both',linestyle='--', linewidth=0.5)
-
+    plt.grid(visible=True, which='both', axis='both', linestyle='--', linewidth=0.5)
     ax = plt.gca()
     plt.text(0.1,0.8, "y = {0:5.3f} x + {1:5.3f}".format(theta[0],theta[1]),
              transform = ax.transAxes, size=10, color="red")
     plt.savefig("test_plots/{0}_{1}_{2}_{3}.png".format(name,supply,x_name,y_name),dpi=300)
     plt.clf()
-
-    # plt.figure(2, figsize=(8,6))
-    # plt.scatter(x,res)
-    # plt.savefig("test_plots/{0}_{1}_{2}_{3}_Res.png".format(name,supply,xlabel,ylabel),dpi=300)
-    # plt.clf()
     
-    # plt.figure(3, figsize=(8,6))
-    # plt.hist(res)
-    # plt.savefig("test_plots/{0}_{1}_{2}_{3}_Hist.png".format(name,supply,xlabel,ylabel),dpi=300)
-    # plt.clf()
-
+    plt.figure(2, figsize=(8,6))
+    plt.scatter(x,res)
+    plt.plot(x,np.zeros(len(x)), color='red', linewidth=1.0, linestyle='--')
+    plt.title("Residuals_{0}".format(name))
+    plt.xlabel(xlabel, labelpad = 0.5, fontsize = 10)
+    plt.ylabel(ylabel, labelpad = 0.5, fontsize = 10)
+    plt.grid(visible=True, which='both', axis='both',linestyle='--', linewidth=0.5)
+    plt.savefig("test_plots/{0}_{1}_{2}_{3}_Res.png".format(name,supply,x_name,y_name),dpi=300)
+    plt.clf()
+    
+    plt.figure(3, figsize=(8,6))
+    plt.hist(res)
+    plt.title("Hist_Residuals_{0}".format(name))
+    plt.xlabel(xlabel, labelpad = 0.5, fontsize = 10)
+    plt.ylabel('Counts', labelpad = 0.5, fontsize = 10)
+    plt.grid(visible=True, which='both', axis='both',linestyle='--', linewidth=0.5)
+    plt.savefig("test_plots/{0}_{1}_{2}_{3}_Hist.png".format(name,supply,x_name,y_name),dpi=300)
+    plt.clf()
+    
+    print("Done!")
+        
     # plt.figure(4, figsize=(8,6))
     # plt.hist(np.std(res))
     # plt.savefig("test_plots/{0}_{1}_{2}_{3}_Hist_Std.png".format(name,supply,xlabel,ylabel),dpi=300)
     # plt.clf()
-
-    print("Done!")
-
+    
     return
 
 #########
 ##Plots##
 #########
 
-#Makes plot from 'HV' (data taken by hand)    
-plotter(data_dict['HV']['DAC'], data_dict['HV']['Voltage'], 
-        name, xlabel='DAC Value', ylabel='High Voltage (|V|)', 
-        x_name='DAC', y_name='HighVoltage', supply='HV')
+# #Makes plot from 'HV' (data taken by hand)    
+# plotter(data_dict['HV']['DAC'], data_dict['HV']['Voltage'], 
+#         name, xlabel='DAC Code', ylabel='High Voltage Output (|V|)', 
+#         x_name='DAC', y_name='HighVoltage', supply='HV')
 
-#Need a try and except block because it can't fit a line if data is 0
-#Will be 0 if we weren't recording for correct supply
-#Supply1 = POTENTIAL & Supply2 = CATHODE
+# #Need a try and except block because it can't fit a line if data is 0
+# #Will be 0 if we weren't recording for correct supply
+# #Supply1 = POTENTIAL & Supply2 = CATHODE
+
+# try:
+#     plotter(data_dict['P']['DAC'], data_dict['P']['ADC_Voltage'], 
+#             name, xlabel='DAC Code', ylabel='Voltage (ADC Code)', 
+#             x_name='DAC', y_name='ADC_Voltage', supply='P')
+#     plotter(data_dict['P']['DAC'], data_dict['P']['ADC_Current'], 
+#             name, xlabel='DAC Code', ylabel='Curent (ADC Code)', 
+#             x_name='DAC', y_name='ADC_Current', supply='P')
+    
+#     plotter(data_dict['C']['DAC'], data_dict['C']['ADC_Voltage'], 
+#             name, xlabel='DAC Code', ylabel='Voltage (ADC Code)', 
+#             x_name='DAC', y_name='ADC_Voltage', supply='C')
+#     plotter(data_dict['C']['DAC'], data_dict['C']['ADC_Current'], 
+#             name, xlabel='DAC Code', ylabel='Current (ADC Code)', 
+#             x_name='DAC', y_name='ADC_Voltage', supply='C')
+    
+# except:# ValueError:
+#     try:
+#         plotter(data_dict['P']['DAC'], data_dict['P']['ADC_Voltage'], 
+#                 name, xlabel='DAC Code', ylabel='Voltage (ADC Code)',
+#                 x_name='DAC', y_name='ADC_Voltage', supply='P')
+#         plotter(data_dict['P']['DAC'], data_dict['P']['ADC_Current'], 
+#                 name, xlabel='DAC Code', ylabel='Current (ADC Code)', 
+#                 x_name='DAC', y_name='ADC_Current', supply='P')
+#     except:# ValueError:
+#         try:
+#             plotter(data_dict['C']['DAC'], data_dict['C']['ADC_Voltage'], 
+#                     name, xlabel='DAC Code', ylabel='Voltage (ADC Code)', 
+#                     x_name='DAC', y_name='ADC_Voltage', supply='C')
+#             plotter(data_dict['C']['DAC'], data_dict['C']['ADC_Current'], 
+#                     name, xlabel='DAC Code', ylabel='Current (ADC Code)', 
+#                     x_name='DAC', y_name='ADC_Current', supply='C')
+#         except:
+#             #IndexError:
+#             print("Event")
+##Masked##
+index_P = np.where(np.array(data_dict['P']['DAC']) < 4000)
+# index_C = np.where(data_dict['C']['DAC'] < 4000)
+# index_HV = np.where(data_dict['HV']['DAC'] < 4000)
+# plt.scatter(np.array(Adist_0)[np.where( (Adepth > 4000) & (Adepth <= 4200) )], np.cos(np.array(Atheta_rec_0)[np.where( (Adepth > 4000) & (Adepth <= 4200) )]), s=1.0, alpha=0.25)#, color='indigo')
+print(index_P)
+print(np.array(data_dict['P']['DAC'])[index_P])
+exit()
+
 try:
     plotter(data_dict['P']['DAC'], data_dict['P']['ADC_Voltage'], 
-            name, xlabel='DAC Value', ylabel='ADC Voltage Value', 
+            name, xlabel='DAC Code', ylabel='Voltage (ADC Code)', 
             x_name='DAC', y_name='ADC_Voltage', supply='P')
     plotter(data_dict['P']['DAC'], data_dict['P']['ADC_Current'], 
-            name, xlabel='DAC Value', ylabel='ADC Current Value', 
+            name, xlabel='DAC Code', ylabel='Curent (ADC Code)', 
             x_name='DAC', y_name='ADC_Current', supply='P')
     
     plotter(data_dict['C']['DAC'], data_dict['C']['ADC_Voltage'], 
-            name, xlabel='DAC Value', ylabel='ADC Voltage Value', 
+            name, xlabel='DAC Code', ylabel='Voltage (ADC Code)', 
             x_name='DAC', y_name='ADC_Voltage', supply='C')
     plotter(data_dict['C']['DAC'], data_dict['C']['ADC_Current'], 
-            name, xlabel='DAC Value', ylabel='ADC Current Value', 
+            name, xlabel='DAC Code', ylabel='Current (ADC Code)', 
             x_name='DAC', y_name='ADC_Voltage', supply='C')
     
-except ValueError:
+except:# ValueError:
     try:
         plotter(data_dict['P']['DAC'], data_dict['P']['ADC_Voltage'], 
-                name, xlabel='DAC Value', ylabel='ADC Voltage Value',
+                name, xlabel='DAC Code', ylabel='Voltage (ADC Code)',
                 x_name='DAC', y_name='ADC_Voltage', supply='P')
         plotter(data_dict['P']['DAC'], data_dict['P']['ADC_Current'], 
-                name, xlabel='DAC Value', ylabel='ADC Current Value', 
+                name, xlabel='DAC Code', ylabel='Current (ADC Code)', 
                 x_name='DAC', y_name='ADC_Current', supply='P')
-    except ValueError:
+    except:# ValueError:
         try:
             plotter(data_dict['C']['DAC'], data_dict['C']['ADC_Voltage'], 
-                    name, xlabel='DAC Value', ylabel='ADC Voltage Value', 
+                    name, xlabel='DAC Code', ylabel='Voltage (ADC Code)', 
                     x_name='DAC', y_name='ADC_Voltage', supply='C')
             plotter(data_dict['C']['DAC'], data_dict['C']['ADC_Current'], 
-                    name, xlabel='DAC Value', ylabel='ADC Current Value', 
+                    name, xlabel='DAC Code', ylabel='Current (ADC Code)', 
                     x_name='DAC', y_name='ADC_Current', supply='C')
-        except IndexError:
+        except:
+            #IndexError:
             print("Event")
 
 ##End of script##
