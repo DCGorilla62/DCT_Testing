@@ -112,7 +112,7 @@ with open(filename2) as f2:
         data_dict['C']['ADC_Voltage'].append(C[1]) 
         data_dict['C']['ADC_Current'].append(C[2]) 
 
-
+import seaborn as sns
 
 #Define a plotting function to make scatter plot and fit a line to it
 def plotter(x, y, name, xlabel='x_val', ylabel='y_val', supply='HV', x_name='input', y_name='data'):
@@ -124,6 +124,12 @@ def plotter(x, y, name, xlabel='x_val', ylabel='y_val', supply='HV', x_name='inp
     theta = np.polyfit(x, y, 1)
     y_line = theta[1] + theta[0] * np.array(x)
     res = y - y_line
+    
+    plt.figure(10, figsize = (8,6))
+    sns.residplot(x=x, y=y_line, lowess=True, color='g')
+    plt.savefig("test_plots/{0}_{1}_{2}_{3}_RESID.png".format(name,supply,x_name,y_name),dpi=300)
+    plt.clf()
+
 
     plt.figure(1, figsize = (8,6))
     plt.scatter(x, y, s=10.0)
