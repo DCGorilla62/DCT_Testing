@@ -466,14 +466,14 @@ try:
             x_name='ADC_Voltage', y_name='ADC_Current', supply='C')
     plotter(data_dict['P']['ADC_Voltage'], data_dict['C']['ADC_Current'], 
             name, xlabel='Voltage (ADC Code)', ylabel='Current (ADC Code)', 
-                    x_name='ADC_Voltage', y_name='ADC_Current', supply='C')
+                    x_name='ADC_Voltage', y_name='ADC_Current', supply='Both')
 
-    plotter(data_dict['P']['ADC_Current'], data_dict['C']['ADC_Voltage'], 
-            name, xlabel='Current (ADC Code)', ylabel='Voltage (ADC Code)', 
-            x_name='ADC_Current', y_name='ADC_Voltage', supply='P_C')
-    plotter(data_dict['C']['ADC_Current'], data_dict['P']['ADC_Voltage'], 
-            name, xlabel='Current (ADC Code)', ylabel='Voltage (ADC Code)', 
-                    x_name='ADC_Current', y_name='ADC_Voltage', supply='C_P')
+    plotter(data_dict['P']['DAC'], data_dict['C']['ADC_Voltage'], 
+            name, xlabel='DAC Code)', ylabel='Voltage (ADC Code)', 
+            x_name='DAC', y_name='ADC_Voltage', supply='P')
+    plotter(data_dict['C']['DAC'], data_dict['P']['ADC_Voltage'], 
+            name, xlabel='DAC Code', ylabel='Voltage (ADC Code)', 
+                    x_name='DAC', y_name='ADC_Voltage', supply='Both')
 
 except:
     print("Failed")
