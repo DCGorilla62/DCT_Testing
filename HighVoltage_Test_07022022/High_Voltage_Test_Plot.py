@@ -73,8 +73,8 @@ import matplotlib.pyplot as plt
 import numpy as np
 #import pandas as pd
 import matplotlib.style as style
-style.use('tableau-colorblind10')
-
+#style.use('tableau-colorblind10')
+style.use('seaborn-colorblind')
 print('...')
 ##########################################
 
@@ -287,7 +287,7 @@ def plotter(x, y, name, xlabel='x_val', ylabel='y_val', supply='HV', x_name='inp
     plt.figure(1, figsize = (8,6))
     plt.scatter(x, y, s=10.0)
     plt.plot(x,y_line, linestyle='dotted', linewidth=1.0, label='All')
-    plt.plot(x_excl,y_line_excl, linestyle='dashdot', linewidth=1.0, label='Exlcude')
+    plt.plot(x_excl,y_line_excl, linestyle='dashdot', linewidth=1.0, label='Exclude')
     plt.plot(x_int,y_line_int, linestyle='dashed', linewidth=1.0, label='Interior')
     plt.plot(x,2.4353*x, linestyle='solid', linewidth=1.0, label='Theoretical')
 
@@ -304,8 +304,8 @@ def plotter(x, y, name, xlabel='x_val', ylabel='y_val', supply='HV', x_name='inp
     # ylim((bottom, top))   # set the ylim to bottom, top
     # ylim(bottom, top)     # set the ylim to bottom, top
 
-    plt.xlim(left=3800)
-    plt.ylim(bottom=8000)
+    plt.xlim(3700,4100)#left=3800)
+    plt.ylim(9000,10000)#bottom=8000)
     plt.title("{0}".format(name))
     plt.xlabel(xlabel, labelpad = 0.5, fontsize = 10)
     plt.ylabel(ylabel, labelpad = 0.5, fontsize = 10)
