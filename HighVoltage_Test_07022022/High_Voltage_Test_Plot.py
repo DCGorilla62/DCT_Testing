@@ -119,9 +119,13 @@ def plotter(x, y, name, xlabel='x_val', ylabel='y_val', supply='HV', x_name='inp
     fit the data with numpy.polyfit()
     '''
     
+    #
     print("Plotting...")
+    x = np.array(x)
+    y = np.array(y)
+
     theta = np.polyfit(x, y, 1)
-    y_line = theta[1] + theta[0] * np.array(x)
+    y_line = theta[1] + theta[0] * x
     res = y - y_line
     #vprint(res)
     
@@ -148,10 +152,6 @@ def plotter(x, y, name, xlabel='x_val', ylabel='y_val', supply='HV', x_name='inp
     plt.savefig("test_plots/{0}_{1}_{2}_{3}_Res.png".format(name,supply,x_name,y_name),dpi=300)
     plt.clf()
     
-                            # plt.hist(data_dict[source]['{0}_1'.format(hist_var)], 
-                            #      weights=data_dict[source]['weight'], bins=bindistance, density=False, 
-                            #      histtype='step', color=color, ls='--', label=str(source)+' refracted')
-
     plt.figure(3, figsize=(8,6))
     plt.hist(res)#, histtype='step')
     plt.title("Hist_Residuals_{0}".format(name))
@@ -160,9 +160,127 @@ def plotter(x, y, name, xlabel='x_val', ylabel='y_val', supply='HV', x_name='inp
     plt.grid(visible=True, which='both', axis='both',linestyle='--', linewidth=0.5)
     plt.savefig("test_plots/{0}_{1}_{2}_{3}_Hist.png".format(name,supply,x_name,y_name),dpi=300)
     plt.clf()
+
+    ##masked##
+    #interior#
+
+    index_int  = np.where( (np.array(x) > 10) & (np.array(x) < 4090) ) 
+    x_int = x[index_int]
+    y_int = y[index_int]
+
+    # x = np.array(x)
+    # y = np.array(y)
+    # index = np.where( (x > 10) & (x < 4010) )
+    # x = x[index]
+    # y = y[index]
+    name_int = 'Masked_Interior_'+name
+
+
+    theta_int = np.polyfit(x_int, y_int, 1)
+    y_line_int = theta_int[1] + theta_int[0] * x_int
+    res_int = y_int - y_line_int
+
+    plt.figure(1, figsize = (8,6))
+    plt.scatter(x_int, y_int, s=10.0)
+    plt.plot(x_int,y_line_int, color='red', linewidth=1.0)
+    plt.title("{0}".format(name))
+    plt.xlabel(xlabel, labelpad = 0.5, fontsize = 10)
+    plt.ylabel(ylabel, labelpad = 0.5, fontsize = 10)
+    plt.grid(visible=True, which='both', axis='both', linestyle='--', linewidth=0.5)
+    ax = plt.gca()
+    plt.text(0.1,0.8, "y = {0:5.3f} x + {1:5.3f}".format(theta_int[0],theta_int[1]),
+             transform = ax.transAxes, size=10, color="red")
+    plt.savefig("test_plots/{0}_{1}_{2}_{3}.png".format(name,supply,x_name,y_name),dpi=300)
+    plt.clf()
+    
+    plt.figure(2, figsize=(8,6))
+    plt.scatter(x_int, res_int, s=10.0)
+    plt.plot(x_int,np.zeros(len(x_int)), color='red', linewidth=1.0, linestyle='-')
+    plt.title("Residuals_{0}".format(name))
+    plt.xlabel(xlabel, labelpad = 0.5, fontsize = 10)
+    plt.ylabel(ylabel, labelpad = 0.5, fontsize = 10)
+    plt.grid(visible=True, which='both', axis='both',linestyle='--', linewidth=0.5)
+    plt.savefig("test_plots/{0}_{1}_{2}_{3}_Res.png".format(name_int,supply,x_name,y_name),dpi=300)
+    plt.clf()
+    
+    plt.figure(3, figsize=(8,6))
+    plt.hist(res_int)#, histtype='step')
+    plt.title("Hist_Residuals_{0}".format(name))
+    plt.xlabel(xlabel, labelpad = 0.5, fontsize = 10)
+    plt.ylabel('Counts', labelpad = 0.5, fontsize = 10)
+    plt.grid(visible=True, which='both', axis='both',linestyle='--', linewidth=0.5)
+    plt.savefig("test_plots/{0}_{1}_{2}_{3}_Hist.png".format(name_int,supply,x_name,y_name),dpi=300)
+    plt.clf()
+
+    #Exclude end only
+    #interior#
+
+    index_excl  = np.where( (np.array(x) < 4090) ) 
+    x_excl = x[index_excl]
+    y_excl = y[index_excl]
+
+    # x = np.array(x)
+    # y = np.array(y)
+    # index = np.where( (x > 10) & (x < 4010) )
+    # x = x[index]
+    # y = y[index]
+    name_excl = 'Masked_Exclude_'+name
+
+
+    theta_excl = np.polyfit(x_excl, y_excl, 1)
+    y_line_excl = theta_excl[1] + theta_excl[0] * x_excl
+    res_excl = y_excl - y_line_excl
+
+    plt.figure(1, figsize = (8,6))
+    plt.scatter(x_excl, y_excl, s=10.0)
+    plt.plot(x_excl,y_line_excl, color='red', linewidth=1.0)
+    plt.title("{0}".format(name))
+    plt.xlabel(xlabel, labelpad = 0.5, fontsize = 10)
+    plt.ylabel(ylabel, labelpad = 0.5, fontsize = 10)
+    plt.grid(visible=True, which='both', axis='both', linestyle='--', linewidth=0.5)
+    ax = plt.gca()
+    plt.text(0.1,0.8, "y = {0:5.3f} x + {1:5.3f}".format(theta_excl[0],theta_excl[1]),
+             transform = ax.transAxes, size=10, color="red")
+    plt.savefig("test_plots/{0}_{1}_{2}_{3}.png".format(name,supply,x_name,y_name),dpi=300)
+    plt.clf()
+    
+    plt.figure(2, figsize=(8,6))
+    plt.scatter(x_excl, res_excl, s=10.0)
+    plt.plot(x_excl,np.zeros(len(x_excl)), color='red', linewidth=1.0, linestyle='-')
+    plt.title("Residuals_{0}".format(name))
+    plt.xlabel(xlabel, labelpad = 0.5, fontsize = 10)
+    plt.ylabel(ylabel, labelpad = 0.5, fontsize = 10)
+    plt.grid(visible=True, which='both', axis='both',linestyle='--', linewidth=0.5)
+    plt.savefig("test_plots/{0}_{1}_{2}_{3}_Res.png".format(name_excl,supply,x_name,y_name),dpi=300)
+    plt.clf()
+    
+    plt.figure(3, figsize=(8,6))
+    plt.hist(res_excl)#, histtype='step')
+    plt.title("Hist_Residuals_{0}".format(name))
+    plt.xlabel(xlabel, labelpad = 0.5, fontsize = 10)
+    plt.ylabel('Counts', labelpad = 0.5, fontsize = 10)
+    plt.grid(visible=True, which='both', axis='both',linestyle='--', linewidth=0.5)
+    plt.savefig("test_plots/{0}_{1}_{2}_{3}_Hist.png".format(name_excl,supply,x_name,y_name),dpi=300)
+    plt.clf()
+
     
     print("Done!")
         
+    #Mega Plot
+    plt.figure(1, figsize = (8,6))
+    plt.scatter(x, y, s=10.0)
+    plt.plot(x,y_line, color='red', linewidth=1.0, label='All')
+    plt.plot(x_excl,y_line_excl, color='green', linewidth=1.0, label='Exlcude')
+    plt.plot(x_int,y_line_int, color='blue', linewidth=1.0, label='Interior')
+    plt.plot(x,2.4353*x, color='yellow', linewidth=1.0, label='Theoretical')
+    plt.title("{0}".format(name))
+    plt.xlabel(xlabel, labelpad = 0.5, fontsize = 10)
+    plt.ylabel(ylabel, labelpad = 0.5, fontsize = 10)
+    plt.grid(visible=True, which='both', axis='both', linestyle='--', linewidth=0.5)
+    ax = plt.gca()
+    plt.savefig("test_plots/All_Fits_{0}_{1}_{2}_{3}.png".format(name,supply,x_name,y_name),dpi=300)
+    plt.clf()
+    
     # plt.figure(4, figsize=(8,6))
     # plt.hist(np.std(res))
     # plt.savefig("test_plots/{0}_{1}_{2}_{3}_Hist_Std.png".format(name,supply,xlabel,ylabel),dpi=300)
