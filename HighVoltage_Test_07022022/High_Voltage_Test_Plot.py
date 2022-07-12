@@ -170,6 +170,71 @@ def plotter(x, y, name, xlabel='x_val', ylabel='y_val', supply='HV', x_name='inp
     
     return
 
+#Masked
+def masked_plotter(x, y, name, xlabel='x_val', ylabel='y_val', supply='HV', x_name='input', y_name='data'):
+    '''
+    Simple plot maker. Will make a scatter plot and 
+    fit the data with numpy.polyfit()
+    '''
+    # print(np.where((a > 2) & (a < 6) | (a == 7), -1, 100))
+    print("Plotting...")
+    x = np.array(x)
+    y = np.array(y)
+    index = np.where( (x > 10) & (x < 4010) )
+    x = x[index]
+    y = y[index]
+    name = name+'_masked'
+    
+    theta = np.polyfit(x, y, 1)
+    y_line = theta[1] + theta[0] * np.array(x)
+    res = y - y_line
+    #vprint(res)
+    
+    plt.figure(1, figsize = (8,6))
+    plt.scatter(x, y, s=10.0)
+    plt.plot(x,y_line, color='red', linewidth=1.0)
+    plt.title("{0}".format(name))
+    plt.xlabel(xlabel, labelpad = 0.5, fontsize = 10)
+    plt.ylabel(ylabel, labelpad = 0.5, fontsize = 10)
+    plt.grid(visible=True, which='both', axis='both', linestyle='--', linewidth=0.5)
+    ax = plt.gca()
+    plt.text(0.1,0.8, "y = {0:5.3f} x + {1:5.3f}".format(theta[0],theta[1]),
+             transform = ax.transAxes, size=10, color="red")
+    plt.savefig("test_plots/{0}_{1}_{2}_{3}.png".format(name,supply,x_name,y_name),dpi=300)
+    plt.clf()
+    
+    plt.figure(2, figsize=(8,6))
+    plt.scatter(x, res, s=10.0)
+    plt.plot(x,np.zeros(len(x)), color='red', linewidth=1.0, linestyle='-')
+    plt.title("Residuals_{0}".format(name))
+    plt.xlabel(xlabel, labelpad = 0.5, fontsize = 10)
+    plt.ylabel(ylabel, labelpad = 0.5, fontsize = 10)
+    plt.grid(visible=True, which='both', axis='both',linestyle='--', linewidth=0.5)
+    plt.savefig("test_plots/{0}_{1}_{2}_{3}_Res.png".format(name,supply,x_name,y_name),dpi=300)
+    plt.clf()
+    
+                            # plt.hist(data_dict[source]['{0}_1'.format(hist_var)], 
+                            #      weights=data_dict[source]['weight'], bins=bindistance, density=False, 
+                            #      histtype='step', color=color, ls='--', label=str(source)+' refracted')
+
+    plt.figure(3, figsize=(8,6))
+    plt.hist(res)#, histtype='step')
+    plt.title("Hist_Residuals_{0}".format(name))
+    plt.xlabel(xlabel, labelpad = 0.5, fontsize = 10)
+    plt.ylabel('Counts', labelpad = 0.5, fontsize = 10)
+    plt.grid(visible=True, which='both', axis='both',linestyle='--', linewidth=0.5)
+    plt.savefig("test_plots/{0}_{1}_{2}_{3}_Hist.png".format(name,supply,x_name,y_name),dpi=300)
+    plt.clf()
+    
+    print("Done!")
+        
+    # plt.figure(4, figsize=(8,6))
+    # plt.hist(np.std(res))
+    # plt.savefig("test_plots/{0}_{1}_{2}_{3}_Hist_Std.png".format(name,supply,xlabel,ylabel),dpi=300)
+    # plt.clf()
+    
+    return
+
 #########
 ##Plots##
 #########
@@ -217,6 +282,55 @@ except:# ValueError:
         except:
             #IndexError:
             print("Event")
+
+
+
+################
+##Masked Plots##
+################
+
+#Makes plot from 'HV' (data taken by hand)    
+masked_plotter(data_dict['HV']['DAC'], data_dict['HV']['Voltage'], 
+        name, xlabel='DAC Code', ylabel='High Voltage Output (|V|)', 
+        x_name='DAC', y_name='HighVoltage', supply='HV')
+
+
+try:
+    masked_plotter(data_dict['P']['DAC'], data_dict['P']['ADC_Voltage'], 
+            name, xlabel='DAC Code', ylabel='Voltage (ADC Code)', 
+            x_name='DAC', y_name='ADC_Voltage', supply='P')
+    masked_plotter(data_dict['P']['DAC'], data_dict['P']['ADC_Current'], 
+            name, xlabel='DAC Code', ylabel='Curent (ADC Code)', 
+            x_name='DAC', y_name='ADC_Current', supply='P')
+    
+    masked_plotter(data_dict['C']['DAC'], data_dict['C']['ADC_Voltage'], 
+            name, xlabel='DAC Code', ylabel='Voltage (ADC Code)', 
+            x_name='DAC', y_name='ADC_Voltage', supply='C')
+    masked_plotter(data_dict['C']['DAC'], data_dict['C']['ADC_Current'], 
+            name, xlabel='DAC Code', ylabel='Current (ADC Code)', 
+            x_name='DAC', y_name='ADC_Voltage', supply='C')
+
+except:# ValueError:
+    try:
+        masked_plotter(data_dict['P']['DAC'], data_dict['P']['ADC_Voltage'], 
+                name, xlabel='DAC Code', ylabel='Voltage (ADC Code)',
+                x_name='DAC', y_name='ADC_Voltage', supply='P')
+        masked_plotter(data_dict['P']['DAC'], data_dict['P']['ADC_Current'], 
+                name, xlabel='DAC Code', ylabel='Current (ADC Code)', 
+                x_name='DAC', y_name='ADC_Current', supply='P')
+    except:# ValueError:
+        try:
+            masked_plotter(data_dict['C']['DAC'], data_dict['C']['ADC_Voltage'], 
+                    name, xlabel='DAC Code', ylabel='Voltage (ADC Code)', 
+                    x_name='DAC', y_name='ADC_Voltage', supply='C')
+            masked_plotter(data_dict['C']['DAC'], data_dict['C']['ADC_Current'], 
+                    name, xlabel='DAC Code', ylabel='Current (ADC Code)', 
+                    x_name='DAC', y_name='ADC_Current', supply='C')
+        except:
+            #IndexError:
+            print("Event")
+
+
 #print(name+'_Masked')
 # ##Masked##
 # index_P = np.where(np.array(data_dict['P']['DAC']) < 4000)
