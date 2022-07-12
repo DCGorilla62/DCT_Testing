@@ -92,6 +92,12 @@ filename2 = g.filename2
 name = filename.split('/')[-1].split('.')[0]
 name2 = filename2.split('/')[-1].split('.')[0]
 
+print(name)
+print(name2)
+print('#'*28)
+print('\n')
+
+#creating empty dictionary where I will store my data
 data_dict = {'P': {'DAC': [], 'ADC_Voltage': [], 'ADC_Current': []},
                   'C': {'DAC': [], 'ADC_Voltage': [], 'ADC_Current': []},
                   'HV': {'DAC': [], 'Voltage': []}}
