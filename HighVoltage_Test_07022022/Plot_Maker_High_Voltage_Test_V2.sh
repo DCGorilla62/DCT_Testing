@@ -63,4 +63,4 @@ python High_Voltage_Test_Plot.py raw_data/Supply_2_Load_36M_Ohm.csv raw_data/lar
 
 python High_Voltage_Test_Plot.py raw_data/Supply_2_Load_None.csv raw_data/no_load_HVsupply2_07022022_raw_clean.txt
 
-mv test_plots/*masked*png test_plots/masked/. 
+mv test_plots/*Masked*png test_plots/masked/. 
