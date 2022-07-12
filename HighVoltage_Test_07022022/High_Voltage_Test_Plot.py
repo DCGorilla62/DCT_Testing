@@ -310,8 +310,8 @@ def plotter(x, y, name, xlabel='x_val', ylabel='y_val', supply='HV', x_name='inp
     # ylim((bottom, top))   # set the ylim to bottom, top
     # ylim(bottom, top)     # set the ylim to bottom, top
 
-    plt.xlim(3700,4100)#left=3800)
-    plt.ylim(9000,10000)#bottom=8000)
+    plt.xlim(3500,4100)#left=3800)
+    plt.ylim(8000,10000)#bottom=8000)
     plt.title("{0}".format(name))
     plt.xlabel(xlabel, labelpad = 0.5, fontsize = 10)
     plt.ylabel(ylabel, labelpad = 0.5, fontsize = 10)
@@ -470,10 +470,10 @@ try:
 
     plotter(data_dict['P']['ADC_Current'], data_dict['C']['ADC_Voltage'], 
             name, xlabel='Current (ADC Code)', ylabel='Voltage (ADC Code)', 
-            x_name='ADC_Current', y_name='ADC_Current', supply='P')
+            x_name='ADC_Current', y_name='ADC_Voltage', supply='P_C')
     plotter(data_dict['C']['ADC_Current'], data_dict['P']['ADC_Voltage'], 
             name, xlabel='Current (ADC Code)', ylabel='Voltage (ADC Code)', 
-                    x_name='ADC_Current', y_name='ADC_Voltage', supply='P')
+                    x_name='ADC_Current', y_name='ADC_Voltage', supply='C_P')
 
 except:
     print("Failed")
