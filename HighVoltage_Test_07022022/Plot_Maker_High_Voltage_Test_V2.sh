@@ -64,6 +64,8 @@ python High_Voltage_Test_Plot.py raw_data/Supply_2_Load_36M_Ohm.csv raw_data/lar
 python High_Voltage_Test_Plot.py raw_data/Supply_2_Load_None.csv raw_data/no_load_HVsupply2_07022022_raw_clean.txt
 
 cd test_plots/
+mkdir -p {Supply1_Large,Supply1_Small,Supply2_Large,Supply2_None}
+
 mv *Supply_1*36*png Supply1_Large/.
 mv *Supply_1*26*png Supply1_Small/.
 mv *Supply*2*36*png Supply2_Large/.

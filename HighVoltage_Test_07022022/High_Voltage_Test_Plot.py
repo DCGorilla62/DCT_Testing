@@ -199,7 +199,7 @@ def plotter(x, y, name, xlabel='x_val', ylabel='y_val', supply='HV', x_name='inp
     ax = plt.gca()
     plt.text(0.1,0.8, "y = {0:5.3f} x + {1:5.3f}".format(theta_int[0],theta_int[1]),
              transform = ax.transAxes, size=10, color="red")
-    plt.savefig("test_plots/{0}_{1}_{2}_{3}.png".format(name,supply,x_name,y_name),dpi=300)
+    plt.savefig("test_plots/{0}_{1}_{2}_{3}.png".format(name_int,supply,x_name,y_name),dpi=300)
     plt.clf()
     
     plt.figure(2, figsize=(8,6))
@@ -249,7 +249,7 @@ def plotter(x, y, name, xlabel='x_val', ylabel='y_val', supply='HV', x_name='inp
     ax = plt.gca()
     plt.text(0.1,0.8, "y = {0:5.3f} x + {1:5.3f}".format(theta_excl[0],theta_excl[1]),
              transform = ax.transAxes, size=10, color="red")
-    plt.savefig("test_plots/{0}_{1}_{2}_{3}.png".format(name,supply,x_name,y_name),dpi=300)
+    plt.savefig("test_plots/{0}_{1}_{2}_{3}.png".format(name_excl,supply,x_name,y_name),dpi=300)
     plt.clf()
     
     plt.figure(2, figsize=(8,6))
@@ -275,56 +275,57 @@ def plotter(x, y, name, xlabel='x_val', ylabel='y_val', supply='HV', x_name='inp
     print("Done!")
         
     #Mega Plot
-    plt.figure(1, figsize = (8,6))
-    plt.scatter(x, y, s=10.0)
-    plt.plot(x,y_line, linestyle='dotted', linewidth=1.0, label='All')
-    plt.plot(x_excl,y_line_excl, linestyle='dashdot', linewidth=1.0, label='Exlcude')
-    plt.plot(x_int,y_line_int, linestyle='dashed', linewidth=1.0, label='Interior')
-    plt.plot(x,2.4353*x, linestyle='solid', linewidth=1.0, label='Theoretical')
-    plt.title("{0}".format(name))
-    plt.xlabel(xlabel, labelpad = 0.5, fontsize = 10)
-    plt.ylabel(ylabel, labelpad = 0.5, fontsize = 10)
-    plt.legend()
-    plt.grid(visible=True, which='both', axis='both', linestyle='--', linewidth=0.5)
-    ax = plt.gca()
-    plt.savefig("test_plots/All_Fits_{0}_{1}_{2}_{3}.png".format(name,supply,x_name,y_name),dpi=300)
-    plt.clf()
-
-    plt.figure(1, figsize = (8,6))
-    plt.scatter(x, y, s=10.0)
-    plt.plot(x,y_line, linestyle='dotted', linewidth=1.0, label='All')
-    plt.plot(x_excl,y_line_excl, linestyle='dashdot', linewidth=1.0, label='Exclude')
-    plt.plot(x_int,y_line_int, linestyle='dashed', linewidth=1.0, label='Interior')
-    plt.plot(x,2.4353*x, linestyle='solid', linewidth=1.0, label='Theoretical')
-
-    # left, right = xlim()  # return the current xlim
-    # xlim((left, right))   # set the xlim to left, right
-    # xlim(left, right)     # set the xlim to left, right
-    
-    # If you do not specify args, you can pass left or right as kwargs, i.e.:
+    if supply=='HV':
+        plt.figure(1, figsize = (8,6))
+        plt.scatter(x, y, s=10.0)
+        plt.plot(x,y_line, linestyle='dotted', linewidth=1.0, label='All')
+        plt.plot(x_excl,y_line_excl, linestyle='dashdot', linewidth=1.0, label='Exlcude')
+        plt.plot(x_int,y_line_int, linestyle='dashed', linewidth=1.0, label='Interior')
+        plt.plot(x,2.4353*x, linestyle='solid', linewidth=1.0, label='Theoretical')
+        plt.title("{0}".format(name))
+        plt.xlabel(xlabel, labelpad = 0.5, fontsize = 10)
+        plt.ylabel(ylabel, labelpad = 0.5, fontsize = 10)
+        plt.legend()
+        plt.grid(visible=True, which='both', axis='both', linestyle='--', linewidth=0.5)
+        ax = plt.gca()
+        plt.savefig("test_plots/All_Fits_{0}_{1}_{2}_{3}.png".format(name,supply,x_name,y_name),dpi=300)
+        plt.clf()
         
-    #     xlim(right=3)  # adjust the right leaving left unchanged
-    #     xlim(left=1)  # adjust the left leaving right unchanged
-    
-    # bottom, top = ylim()  # return the current ylim
-    # ylim((bottom, top))   # set the ylim to bottom, top
-    # ylim(bottom, top)     # set the ylim to bottom, top
-
-    plt.xlim(3500,4100)#left=3800)
-    plt.ylim(8000,10000)#bottom=8000)
-    plt.title("{0}".format(name))
-    plt.xlabel(xlabel, labelpad = 0.5, fontsize = 10)
-    plt.ylabel(ylabel, labelpad = 0.5, fontsize = 10)
-    plt.legend()
-    plt.grid(visible=True, which='both', axis='both', linestyle='--', linewidth=0.5)
-    ax = plt.gca()
-    plt.savefig("test_plots/Zoom_All_Fits_{0}_{1}_{2}_{3}.png".format(name,supply,x_name,y_name),dpi=300)
-    plt.clf()
-    
-    # plt.figure(4, figsize=(8,6))
-    # plt.hist(np.std(res))
-    # plt.savefig("test_plots/{0}_{1}_{2}_{3}_Hist_Std.png".format(name,supply,xlabel,ylabel),dpi=300)
-    # plt.clf()
+        plt.figure(1, figsize = (8,6))
+        plt.scatter(x, y, s=10.0)
+        plt.plot(x,y_line, linestyle='dotted', linewidth=1.0, label='All')
+        plt.plot(x_excl,y_line_excl, linestyle='dashdot', linewidth=1.0, label='Exclude')
+        plt.plot(x_int,y_line_int, linestyle='dashed', linewidth=1.0, label='Interior')
+        plt.plot(x,2.4353*x, linestyle='solid', linewidth=1.0, label='Theoretical')
+        
+        # left, right = xlim()  # return the current xlim
+        # xlim((left, right))   # set the xlim to left, right
+        # xlim(left, right)     # set the xlim to left, right
+        
+        # If you do not specify args, you can pass left or right as kwargs, i.e.:
+        
+        #     xlim(right=3)  # adjust the right leaving left unchanged
+        #     xlim(left=1)  # adjust the left leaving right unchanged
+        
+        # bottom, top = ylim()  # return the current ylim
+        # ylim((bottom, top))   # set the ylim to bottom, top
+        # ylim(bottom, top)     # set the ylim to bottom, top
+        
+        plt.xlim(3500,4100)#left=3800)
+        plt.ylim(8000,10000)#bottom=8000)
+        plt.title("{0}".format(name))
+        plt.xlabel(xlabel, labelpad = 0.5, fontsize = 10)
+        plt.ylabel(ylabel, labelpad = 0.5, fontsize = 10)
+        plt.legend()
+        plt.grid(visible=True, which='both', axis='both', linestyle='--', linewidth=0.5)
+        ax = plt.gca()
+        plt.savefig("test_plots/Zoom_All_Fits_{0}_{1}_{2}_{3}.png".format(name,supply,x_name,y_name),dpi=300)
+        plt.clf()
+        
+        # plt.figure(4, figsize=(8,6))
+        # plt.hist(np.std(res))
+        # plt.savefig("test_plots/{0}_{1}_{2}_{3}_Hist_Std.png".format(name,supply,xlabel,ylabel),dpi=300)
+        # plt.clf()
     
     return
 
@@ -398,14 +399,43 @@ def plotter(x, y, name, xlabel='x_val', ylabel='y_val', supply='HV', x_name='inp
 #########
 
 #Makes plot from 'HV' (data taken by hand)    
+print('High Voltage Output Plots')
+#print('\n')
 plotter(data_dict['HV']['DAC'], data_dict['HV']['Voltage'], 
         name, xlabel='DAC Code', ylabel='High Voltage Output (|V|)', 
         x_name='DAC', y_name='HighVoltage', supply='HV')
+print('\n')
 
 #Need a try and except block because it can't fit a line if data is 0
 #Will be 0 if we weren't recording for correct supply
 #Supply1 = POTENTIAL & Supply2 = CATHODE
 
+## Trying to use an if statement instead of a try and except block for rest of plots
+# print(name)
+# print(name.split('_'))
+
+# if float(name.split('_')[1]) == 1.0:
+#     plotter(data_dict['P']['DAC'], data_dict['P']['ADC_Voltage'], 
+#             name, xlabel='DAC Code', ylabel='Voltage (ADC Code)', 
+#             x_name='DAC', y_name='ADC_Voltage', supply='P')
+#     plotter(data_dict['P']['DAC'], data_dict['P']['ADC_Current'], 
+#             name, xlabel='DAC Code', ylabel='Curent (ADC Code)', 
+#             x_name='DAC', y_name='ADC_Current', supply='P')
+    
+# else:
+#     plotter(data_dict['C']['DAC'], data_dict['C']['ADC_Voltage'], 
+#             name, xlabel='DAC Code', ylabel='Voltage (ADC Code)', 
+#             x_name='DAC', y_name='ADC_Voltage', supply='C')
+#     plotter(data_dict['C']['DAC'], data_dict['C']['ADC_Current'], 
+#             name, xlabel='DAC Code', ylabel='Current (ADC Code)', 
+#             x_name='DAC', y_name='ADC_Voltage', supply='C')
+
+#     #print("Fail")
+
+
+# exit()
+
+print("DAC vs ADC")
 try:
     plotter(data_dict['P']['DAC'], data_dict['P']['ADC_Voltage'], 
             name, xlabel='DAC Code', ylabel='Voltage (ADC Code)', 
@@ -420,9 +450,11 @@ try:
     plotter(data_dict['C']['DAC'], data_dict['C']['ADC_Current'], 
             name, xlabel='DAC Code', ylabel='Current (ADC Code)', 
             x_name='DAC', y_name='ADC_Voltage', supply='C')
-    
+    print('\n')
+
 except:# ValueError:
     try:
+        print('P')
         plotter(data_dict['P']['DAC'], data_dict['P']['ADC_Voltage'], 
                 name, xlabel='DAC Code', ylabel='Voltage (ADC Code)',
                 x_name='DAC', y_name='ADC_Voltage', supply='P')
@@ -431,6 +463,7 @@ except:# ValueError:
                 x_name='DAC', y_name='ADC_Current', supply='P')
     except:# ValueError:
         try:
+            print('C')
             plotter(data_dict['C']['DAC'], data_dict['C']['ADC_Voltage'], 
                     name, xlabel='DAC Code', ylabel='Voltage (ADC Code)', 
                     x_name='DAC', y_name='ADC_Voltage', supply='C')
@@ -438,10 +471,14 @@ except:# ValueError:
                     name, xlabel='DAC Code', ylabel='Current (ADC Code)', 
                     x_name='DAC', y_name='ADC_Current', supply='C')
         except:
+            print("Failed")
             #IndexError:
-            print("Event")
+            #print("Event")
+print('\n')
 
 #Same supply ADC Volt vs ADC Current
+print('Same')
+print('ADC vs ADC')
 
 try:
     plotter(data_dict['C']['ADC_Voltage'], data_dict['C']['ADC_Current'], 
@@ -449,34 +486,53 @@ try:
             x_name='ADC_Voltage', y_name='ADC_Current', supply='C')
     plotter(data_dict['P']['ADC_Voltage'], data_dict['C']['ADC_Current'], 
             name, xlabel='Voltage (ADC Code)', ylabel='Current (ADC Code)', 
-                    x_name='ADC_Voltage', y_name='ADC_Current', supply='P')
+            x_name='ADC_Voltage', y_name='ADC_Current', supply='P')
 except:
-    print("Failed")
-    # plotter(data_dict['P']['ADC_Voltage'], data_dict['P']['ADC_Current'], 
-    #         name, xlabel='Voltage (ADC Code)', ylabel='Current (ADC Code)', 
-    #         x_name='ADC_Voltage', y_name='ADC_Current', supply='P')
-    # plotter(data_dict['P']['ADC_Voltage'], data_dict['P']['ADC_Current'], 
-    #         name, xlabel='Voltage (ADC Code)', ylabel='Current (ADC Code)', 
-    #                 x_name='ADC_Voltage', y_name='ADC_Current', supply='P')
+    #print("Failed")
+    plotter(data_dict['P']['ADC_Voltage'], data_dict['P']['ADC_Current'], 
+            name, xlabel='Voltage (ADC Code)', ylabel='Current (ADC Code)', 
+            x_name='ADC_Voltage', y_name='ADC_Current', supply='P')
+    plotter(data_dict['P']['ADC_Voltage'], data_dict['P']['ADC_Current'], 
+            name, xlabel='Voltage (ADC Code)', ylabel='Current (ADC Code)', 
+            x_name='ADC_Voltage', y_name='ADC_Current', supply='P')
+print('\n')
 
 #Different Supplies
+print('Different Supplies')
+print('ADC vs ADC')
+
 try:
     plotter(data_dict['C']['ADC_Voltage'], data_dict['P']['ADC_Current'], 
             name, xlabel='Voltage (ADC Code)', ylabel='Current (ADC Code)', 
             x_name='ADC_Voltage', y_name='ADC_Current', supply='Both')
     plotter(data_dict['P']['ADC_Voltage'], data_dict['C']['ADC_Current'], 
             name, xlabel='Voltage (ADC Code)', ylabel='Current (ADC Code)', 
-                    x_name='ADC_Voltage', y_name='ADC_Current', supply='Both')
+            x_name='ADC_Voltage', y_name='ADC_Current', supply='Both')
 
     plotter(data_dict['P']['DAC'], data_dict['C']['ADC_Voltage'], 
             name, xlabel='DAC Code)', ylabel='Voltage (ADC Code)', 
             x_name='DAC', y_name='ADC_Voltage', supply='Both')
     plotter(data_dict['C']['DAC'], data_dict['P']['ADC_Voltage'], 
             name, xlabel='DAC Code', ylabel='Voltage (ADC Code)', 
-                    x_name='DAC', y_name='ADC_Voltage', supply='Both')
+            x_name='DAC', y_name='ADC_Voltage', supply='Both')
 
 except:
-    print("Failed")
+    try:
+        plotter(data_dict['P']['ADC_Voltage'], data_dict['C']['ADC_Current'], 
+                name, xlabel='Voltage (ADC Code)', ylabel='Current (ADC Code)', 
+                x_name='ADC_Voltage', y_name='ADC_Current', supply='Both')
+        plotter(data_dict['P']['DAC'], data_dict['C']['ADC_Voltage'], 
+                name, xlabel='DAC Code)', ylabel='Voltage (ADC Code)', 
+                x_name='DAC', y_name='ADC_Voltage', supply='Both')
+    except:
+        plotter(data_dict['C']['DAC'], data_dict['P']['ADC_Voltage'], 
+                name, xlabel='DAC Code', ylabel='Voltage (ADC Code)', 
+                x_name='DAC', y_name='ADC_Voltage', supply='Both')
+        plotter(data_dict['C']['ADC_Voltage'], data_dict['P']['ADC_Current'], 
+                name, xlabel='Voltage (ADC Code)', ylabel='Current (ADC Code)', 
+                x_name='ADC_Voltage', y_name='ADC_Current', supply='Both')
+print('\n')        
+#    print("Failed")
 
 ################
 ##Masked Plots##
