@@ -510,11 +510,11 @@ try:
     #         x_name='ADC_Voltage', y_name='ADC_Current', supply='Both')
 
     plotter(data_dict['P']['DAC'], data_dict['C']['ADC_Voltage'], 
-            name, xlabel='DAC Code', ylabel='Voltage (ADC Code)', 
-            x_name='DAC', y_name='ADC_Voltage', supply='Both')
+            name, xlabel='P: DAC Code', ylabel='C: Voltage (ADC Code)', 
+            x_name='DAC', y_name='ADC_Voltage', supply='Both_P')
     plotter(data_dict['C']['DAC'], data_dict['P']['ADC_Voltage'], 
-            name, xlabel='DAC Code', ylabel='Voltage (ADC Code)', 
-            x_name='DAC', y_name='ADC_Voltage', supply='Both')
+            name, xlabel='C: DAC Code', ylabel='P: Voltage (ADC Code)', 
+            x_name='DAC', y_name='ADC_Voltage', supply='Both_C')
 
 except:
     try:
@@ -522,12 +522,12 @@ except:
         #         name, xlabel='Voltage (ADC Code)', ylabel='Current (ADC Code)', 
         #         x_name='ADC_Voltage', y_name='ADC_Current', supply='Both')
         plotter(data_dict['P']['DAC'], data_dict['C']['ADC_Voltage'], 
-                name, xlabel='DAC Code)', ylabel='Voltage (ADC Code)', 
-                x_name='DAC', y_name='ADC_Voltage', supply='Both')
+                name, xlabel='P: DAC Code)', ylabel='C: Voltage (ADC Code)', 
+                x_name='DAC', y_name='ADC_Voltage', supply='Both_P')
     except:
         plotter(data_dict['C']['DAC'], data_dict['P']['ADC_Voltage'], 
-                name, xlabel='DAC Code', ylabel='Voltage (ADC Code)', 
-                x_name='DAC', y_name='ADC_Voltage', supply='Both')
+                name, xlabel='C: DAC Code', ylabel='P: Voltage (ADC Code)', 
+                x_name='DAC', y_name='ADC_Voltage', supply='Both_C')
         # plotter(data_dict['C']['ADC_Voltage'], data_dict['P']['ADC_Current'], 
         #         name, xlabel='Voltage (ADC Code)', ylabel='Current (ADC Code)', 
         #         x_name='ADC_Voltage', y_name='ADC_Current', supply='Both')

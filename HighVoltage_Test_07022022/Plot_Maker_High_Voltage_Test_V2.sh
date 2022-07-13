@@ -69,24 +69,20 @@ mkdir -p {Supply1_Large/,Supply1_Small,Supply2_Large,Supply2_None}/{Both,Same,DA
 mv *Supply_1*36*HV*png Supply1_Large/HV/.
 mv *Supply_1*36*Both*png Supply1_Large/Both/.
 mv *Supply_1*36*Same*png Supply1_Large/Same/.
-mv *Supply_1*36*Same*png Supply1_Large/Same/.
 mv *Supply_1*36*DAC*png Supply1_Large/DAC/.
 
 mv *Supply_1*26*HV*png Supply1_Small/HV/.
 mv *Supply_1*26*Both*png Supply1_Small/Both/.
-mv *Supply_1*26*Same*png Supply1_Small/Same/.
 mv *Supply_1*26*Same*png Supply1_Small/Same/.
 mv *Supply_1*26*DAC*png Supply1_Small/DAC/.
 
 mv *Supply_2*36*HV*png Supply2_Large/HV/.
 mv *Supply_2*36*Both*png Supply2_Large/Both/.
 mv *Supply_2*36*Same*png Supply2_Large/Same/.
-mv *Supply_2*36*Same*png Supply2_Large/Same/.
 mv *Supply_2*36*DAC*png Supply2_Large/DAC/.
 
 mv *Supply_2*None*HV*png Supply2_None/HV/.
 mv *Supply_2*None*Both*png Supply2_None/Both/.
-mv *Supply_2*None*Same*png Supply2_None/Same/.
 mv *Supply_2*None*Same*png Supply2_None/Same/.
 mv *Supply_2*None*DAC*png Supply2_None/DAC/.
 
