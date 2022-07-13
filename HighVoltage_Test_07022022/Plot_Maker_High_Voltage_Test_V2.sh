@@ -64,11 +64,31 @@ python High_Voltage_Test_Plot.py raw_data/Supply_2_Load_36M_Ohm.csv raw_data/lar
 python High_Voltage_Test_Plot.py raw_data/Supply_2_Load_None.csv raw_data/no_load_HVsupply2_07022022_raw_clean.txt
 
 cd test_plots/
-mkdir -p {Supply1_Large,Supply1_Small,Supply2_Large,Supply2_None}
+mkdir -p {Supply1_Large/,Supply1_Small,Supply2_Large,Supply2_None}/{Both,Same,DAC,HV}
 
-mv *Supply_1*36*png Supply1_Large/.
-mv *Supply_1*26*png Supply1_Small/.
-mv *Supply*2*36*png Supply2_Large/.
-mv *Supply_2*None*png Supply2_None/.
+mv *Supply_1*36*HV*png Supply1_Large/HV/.
+mv *Supply_1*36*Both*png Supply1_Large/Both/.
+mv *Supply_1*36*Same*png Supply1_Large/Same/.
+mv *Supply_1*36*Same*png Supply1_Large/Same/.
+mv *Supply_1*36*DAC*png Supply1_Large/DAC/.
+
+mv *Supply_1*26*HV*png Supply1_Small/HV/.
+mv *Supply_1*26*Both*png Supply1_Small/Both/.
+mv *Supply_1*26*Same*png Supply1_Small/Same/.
+mv *Supply_1*26*Same*png Supply1_Small/Same/.
+mv *Supply_1*26*DAC*png Supply1_Small/DAC/.
+
+mv *Supply_2*36*HV*png Supply2_Large/HV/.
+mv *Supply_2*36*Both*png Supply2_Large/Both/.
+mv *Supply_2*36*Same*png Supply2_Large/Same/.
+mv *Supply_2*36*Same*png Supply2_Large/Same/.
+mv *Supply_2*36*DAC*png Supply2_Large/DAC/.
+
+mv *Supply_2*None*HV*png Supply2_None/HV/.
+mv *Supply_2*None*Both*png Supply2_None/Both/.
+mv *Supply_2*None*Same*png Supply2_None/Same/.
+mv *Supply_2*None*Same*png Supply2_None/Same/.
+mv *Supply_2*None*DAC*png Supply2_None/DAC/.
+
 
 # mv test_plots/*Masked*png test_plots/masked/. 
