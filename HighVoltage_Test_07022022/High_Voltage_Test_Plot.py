@@ -173,7 +173,7 @@ def plotter(x, y, name, xlabel='x_val', ylabel='y_val', supply='HV', x_name='inp
     ##masked##
     #interior#
 
-    index_int  = np.where( (np.array(x) > 10) & (np.array(x) < 4090) ) 
+    index_int  = np.where( (np.array(x) > 90) & (np.array(x) < 4000) ) 
     x_int = x[index_int]
     y_int = y[index_int]
 
@@ -224,7 +224,7 @@ def plotter(x, y, name, xlabel='x_val', ylabel='y_val', supply='HV', x_name='inp
     #Exclude end only
     #interior#
 
-    index_excl  = np.where( (np.array(x) < 4090) ) 
+    index_excl  = np.where( (np.array(x) < 4000) ) 
     x_excl = x[index_excl]
     y_excl = y[index_excl]
 
@@ -310,9 +310,12 @@ def plotter(x, y, name, xlabel='x_val', ylabel='y_val', supply='HV', x_name='inp
         # bottom, top = ylim()  # return the current ylim
         # ylim((bottom, top))   # set the ylim to bottom, top
         # ylim(bottom, top)     # set the ylim to bottom, top
-        
-        plt.xlim(3500,4100)#left=3800)
-        plt.ylim(8000,10000)#bottom=8000)
+        left, right = plt.xlim()
+        top, bottom = plt.ylim()
+        # plt.xlim(3500,4100)#left=3800)
+        # plt.ylim(8000,10000)#bottom=8000)
+        plt.xlim(left*0.8, right)
+        plt.ylim(top, bottom*0.8)
         plt.title("{0}".format(name))
         plt.xlabel(xlabel, labelpad = 0.5, fontsize = 10)
         plt.ylabel(ylabel, labelpad = 0.5, fontsize = 10)
