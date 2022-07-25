@@ -9,7 +9,7 @@
 #######################################################
 """
 =======================
-##High_Voltage_Test_Plot.py##
+##High_Voltage_Test_Plot_07022022.py##
 ======================
 Author: Dennis H. Calderon
 Email: calderon-madera.1@osu.edu
@@ -82,45 +82,43 @@ print('...')
 parser = argparse.ArgumentParser(
         description='Read filename with list of effective volume errors.')
 parser.add_argument("filename", help = "Path to the file you want to use.")
-parser.add_argument("filename2", help = "Path to another file you want to use.")
+
 g = parser.parse_args()
 
 filename = g.filename
-filename2 = g.filename2
+
 
 #making cleaner name from given filename
 name = filename.split('/')[-1].split('.')[0]
-name2 = filename2.split('/')[-1].split('.')[0]
+
 
 print(name)
-print(name2)
+
 print('#'*28)
 print('\n')
 
 #creating empty dictionary where I will store my data
 data_dict = {'P': {'DAC': [], 'ADC_Voltage': [], 'ADC_Current': []},
-                  'C': {'DAC': [], 'ADC_Voltage': [], 'ADC_Current': []},
-                  'HV': {'DAC': [], 'Voltage': []}}
-
-#Reads data from first file and appends to dictionary
-with open(filename) as f:
-    for line in f:
-        HV = [float(value) for value in line.split(',')]
-        data_dict['HV']['DAC'].append(HV[0])
-        data_dict['HV']['Voltage'].append(HV[1])
+             'C': {'DAC': [], 'ADC_Voltage': [], 'ADC_Current': []}}
 
 #Reads data from second file and appends to dictionary        
-with open(filename2) as f2:
-    for line in f2:
+with open(filename) as f:
+    for line in f:
         P = [float(value) for value in line.split()[1].split(',')]
         C = [float(value) for value in line.split()[3].split(',')]
-        data_dict['P']['DAC'].append(P[0]) 
+        data_dict['P']['DAC_Volt'].append(P[0])
+        data_dict['P']['DAC_Current_Limit'].append(P[0]) 
         data_dict['P']['ADC_Voltage'].append(P[1]) 
         data_dict['P']['ADC_Current'].append(P[2]) 
-        data_dict['C']['DAC'].append(C[0]) 
+        data_dict['C']['DAC_Volt'].append(C[0])
+        data_dict['C']['DAC_Current_Limit'].append(C[0]) 
         data_dict['C']['ADC_Voltage'].append(C[1]) 
         data_dict['C']['ADC_Current'].append(C[2]) 
 
+exit()
+
+
+        
 #Define a plotting function to make scatter plot and fit a line to it
 def plotter(x, y, name, xlabel='x_val', ylabel='y_val', supply='HV', x_name='input', y_name='data'):
     '''
