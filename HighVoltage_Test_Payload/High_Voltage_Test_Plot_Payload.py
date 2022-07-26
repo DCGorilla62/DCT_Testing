@@ -82,15 +82,15 @@ print('...')
 parser = argparse.ArgumentParser(
         description='Read filename with list of effective volume errors.')
 parser.add_argument("filename", help = "Path to the file you want to use.")
-parser.add_argument("supply", help = "1 or 2 Supply used. Cathode: Supply 1 or Potential: Supply2.")
+# parser.add_argument("supply", help = "1 or 2 Supply used. Cathode: Supply 1 or Potential: Supply2.")
 
 g = parser.parse_args()
 
 filename = g.filename
-supply = g.supply
-#print(supply)
-#print(type(supply))
-#making cleaner name from given filename
+# supply = g.supply
+# print(supply)
+# print(type(supply))
+# making cleaner name from given filename
 name = filename.split('/')[-1].split('.')[0]
 
 
@@ -99,29 +99,37 @@ print(name)
 print('#'*28)
 print('\n')
 
-#creating empty dictionary where I will store my data
-data_dict = {'P': {'DAC_Volts': [], 'DAC_Current_Limit': [], 'ADC_Voltage': [], 'ADC_Current': []},
-             'C': {'DAC_Volts': [], 'DAC_Current_Limit': [], 'ADC_Voltage': [], 'ADC_Current': []}}
+# #creating empty dictionary where I will store my data
+# data_dict = {'P': {'DAC_Volts': [], 'DAC_Current_Limit': [], 'ADC_Voltage': [], 'ADC_Current': []},
+#              'C': {'DAC_Volts': [], 'DAC_Current_Limit': [], 'ADC_Voltage': [], 'ADC_Current': []}}
 
-#Reads data from second file and appends to dictionary        
-with open(filename) as f:
-    for line in f:
-        P = [float(value) for value in line.split()[1].split(',')]
-        # print(P)
-        # exit()
-        C = [float(value) for value in line.split()[3].split(',')]
-        data_dict['P']['DAC_Volts'].append(P[0])
-        data_dict['P']['DAC_Current_Limit'].append(P[1]) 
-        data_dict['P']['ADC_Voltage'].append(P[2]) 
-        data_dict['P']['ADC_Current'].append(P[3]) 
-        data_dict['C']['DAC_Volts'].append(C[0])
-        data_dict['C']['DAC_Current_Limit'].append(C[1]) 
-        data_dict['C']['ADC_Voltage'].append(C[2]) 
-        data_dict['C']['ADC_Current'].append(C[3]) 
+# #Reads data from second file and appends to dictionary        
+# with open(filename) as f:
+#     for line in f:
+#         P = [float(value) for value in line.split()[1].split(',')]
+#         # print(P)
+#         # exit()
+#         C = [float(value) for value in line.split()[3].split(',')]
+#         data_dict['P']['DAC_Volts'].append(P[0])
+#         data_dict['P']['DAC_Current_Limit'].append(P[1]) 
+#         data_dict['P']['ADC_Voltage'].append(P[2]) 
+#         data_dict['P']['ADC_Current'].append(P[3]) 
+#         data_dict['C']['DAC_Volts'].append(C[0])
+#         data_dict['C']['DAC_Current_Limit'].append(C[1]) 
+#         data_dict['C']['ADC_Voltage'].append(C[2]) 
+#         data_dict['C']['ADC_Current'].append(C[3]) 
 
-#print(data_dict)
-# exit()
+# #print(data_dict)
+# # exit()
 
+
+
+import pandas as pd
+df = pd.read_csv(g.filename)
+
+print(df)
+
+#exit()
 
         
 #Define a plotting function to make scatter plot and fit a line to it
@@ -173,106 +181,108 @@ def plotter(x, y, name, xlabel='x_val', ylabel='y_val', supply='HV', x_name='inp
     plt.savefig("test_plots/{0}_{1}_{2}_{3}_Hist.png".format(name,supply,x_name,y_name),dpi=300)
     plt.clf()
 
-    ##masked##
-    #interior#
+#     ##masked##
+#     #interior#
 
-    index_int  = np.where( (np.array(x) > 90) & (np.array(x) < 4000) ) 
-    x_int = x[index_int]
-    y_int = y[index_int]
+#     index_int  = np.where( (np.array(x) > 90) & (np.array(x) < 4000) ) 
+#     x_int = x[index_int]
+#     y_int = y[index_int]
 
-    # x = np.array(x)
-    # y = np.array(y)
-    # index = np.where( (x > 10) & (x < 4010) )
-    # x = x[index]
-    # y = y[index]
-    name_int = 'Masked_Interior_'+name
+#     # x = np.array(x)
+#     # y = np.array(y)
+#     # index = np.where( (x > 10) & (x < 4010) )
+#     # x = x[index]
+#     # y = y[index]
+#     name_int = 'Masked_Interior_'+name
 
 
-    theta_int = np.polyfit(x_int, y_int, 1)
-    y_line_int = theta_int[1] + theta_int[0] * x_int
-    res_int = y_int - y_line_int
+#     theta_int = np.polyfit(x_int, y_int, 1)
+#     y_line_int = theta_int[1] + theta_int[0] * x_int
+#     res_int = y_int - y_line_int
 
-    plt.figure(1, figsize = (8,6))
-    plt.scatter(x_int, y_int, s=10.0)
-    plt.plot(x_int,y_line_int, color='red', linewidth=1.0)
-    plt.title("{0}".format(name))
-    plt.xlabel(xlabel, labelpad = 0.5, fontsize = 10)
-    plt.ylabel(ylabel, labelpad = 0.5, fontsize = 10)
-    plt.grid(visible=True, which='both', axis='both', linestyle='--', linewidth=0.5)
-    ax = plt.gca()
-    plt.text(0.1,0.8, "y = {0:5.3f} x + {1:5.3f}".format(theta_int[0],theta_int[1]),
-             transform = ax.transAxes, size=10, color="red")
-    plt.savefig("test_plots/{0}_{1}_{2}_{3}.png".format(name_int,supply,x_name,y_name),dpi=300)
-    plt.clf()
+#     plt.figure(1, figsize = (8,6))
+#     plt.scatter(x_int, y_int, s=10.0)
+#     plt.plot(x_int,y_line_int, color='red', linewidth=1.0)
+#     plt.title("{0}".format(name))
+#     plt.xlabel(xlabel, labelpad = 0.5, fontsize = 10)
+#     plt.ylabel(ylabel, labelpad = 0.5, fontsize = 10)
+#     plt.grid(visible=True, which='both', axis='both', linestyle='--', linewidth=0.5)
+#     ax = plt.gca()
+#     plt.text(0.1,0.8, "y = {0:5.3f} x + {1:5.3f}".format(theta_int[0],theta_int[1]),
+#              transform = ax.transAxes, size=10, color="red")
+#     plt.savefig("test_plots/{0}_{1}_{2}_{3}.png".format(name_int,supply,x_name,y_name),dpi=300)
+#     plt.clf()
     
-    plt.figure(2, figsize=(8,6))
-    plt.scatter(x_int, res_int, s=10.0)
-    plt.plot(x_int,np.zeros(len(x_int)), color='red', linewidth=1.0, linestyle='-')
-    plt.title("Residuals_{0}".format(name))
-    plt.xlabel(xlabel, labelpad = 0.5, fontsize = 10)
-    plt.ylabel(ylabel, labelpad = 0.5, fontsize = 10)
-    plt.grid(visible=True, which='both', axis='both',linestyle='--', linewidth=0.5)
-    plt.savefig("test_plots/{0}_{1}_{2}_{3}_Res.png".format(name_int,supply,x_name,y_name),dpi=300)
-    plt.clf()
+#     plt.figure(2, figsize=(8,6))
+#     plt.scatter(x_int, res_int, s=10.0)
+#     plt.plot(x_int,np.zeros(len(x_int)), color='red', linewidth=1.0, linestyle='-')
+#     plt.title("Residuals_{0}".format(name))
+#     plt.xlabel(xlabel, labelpad = 0.5, fontsize = 10)
+#     plt.ylabel(ylabel, labelpad = 0.5, fontsize = 10)
+#     plt.grid(visible=True, which='both', axis='both',linestyle='--', linewidth=0.5)
+#     plt.savefig("test_plots/{0}_{1}_{2}_{3}_Res.png".format(name_int,supply,x_name,y_name),dpi=300)
+#     plt.clf()
     
-    plt.figure(3, figsize=(8,6))
-    plt.hist(res_int)#, histtype='step')
-    plt.title("Hist_Residuals_{0}".format(name))
-    plt.xlabel(xlabel, labelpad = 0.5, fontsize = 10)
-    plt.ylabel('Counts', labelpad = 0.5, fontsize = 10)
-    plt.grid(visible=True, which='both', axis='both',linestyle='--', linewidth=0.5)
-    plt.savefig("test_plots/{0}_{1}_{2}_{3}_Hist.png".format(name_int,supply,x_name,y_name),dpi=300)
-    plt.clf()
-
-    #Exclude end only
-    #interior#
-
-    index_excl  = np.where( (np.array(x) < 4000) ) 
-    x_excl = x[index_excl]
-    y_excl = y[index_excl]
-
-    # x = np.array(x)
-    # y = np.array(y)
-    # index = np.where( (x > 10) & (x < 4010) )
-    # x = x[index]
-    # y = y[index]
-    name_excl = 'Masked_Exclude_'+name
-
-    theta_excl = np.polyfit(x_excl, y_excl, 1)
-    y_line_excl = theta_excl[1] + theta_excl[0] * x_excl
-    res_excl = y_excl - y_line_excl
-
-    plt.figure(1, figsize = (8,6))
-    plt.scatter(x_excl, y_excl, s=10.0)
-    plt.plot(x_excl,y_line_excl, color='red', linewidth=1.0)
-    plt.title("{0}".format(name))
-    plt.xlabel(xlabel, labelpad = 0.5, fontsize = 10)
-    plt.ylabel(ylabel, labelpad = 0.5, fontsize = 10)
-    plt.grid(visible=True, which='both', axis='both', linestyle='--', linewidth=0.5)
-    ax = plt.gca()
-    plt.text(0.1,0.8, "y = {0:5.3f} x + {1:5.3f}".format(theta_excl[0],theta_excl[1]),
-             transform = ax.transAxes, size=10, color="red")
-    plt.savefig("test_plots/{0}_{1}_{2}_{3}.png".format(name_excl,supply,x_name,y_name),dpi=300)
-    plt.clf()
+#     plt.figure(3, figsize=(8,6))
+#     plt.hist(res_int)#, histtype='step')
+#     plt.title("Hist_Residuals_{0}".format(name))
+#     plt.xlabel(xlabel, labelpad = 0.5, fontsize = 10)
+#     plt.ylabel('Counts', labelpad = 0.5, fontsize = 10)
+#     plt.grid(visible=True, which='both', axis='both',linestyle='--', linewidth=0.5)
+#     plt.savefig("test_plots/{0}_{1}_{2}_{3}_Hist.png".format(name_int,supply,x_name,y_name),dpi=300)
+#     plt.clf()
     
-    plt.figure(2, figsize=(8,6))
-    plt.scatter(x_excl, res_excl, s=10.0)
-    plt.plot(x_excl,np.zeros(len(x_excl)), color='red', linewidth=1.0, linestyle='-')
-    plt.title("Residuals_{0}".format(name))
-    plt.xlabel(xlabel, labelpad = 0.5, fontsize = 10)
-    plt.ylabel(ylabel, labelpad = 0.5, fontsize = 10)
-    plt.grid(visible=True, which='both', axis='both',linestyle='--', linewidth=0.5)
-    plt.savefig("test_plots/{0}_{1}_{2}_{3}_Res.png".format(name_excl,supply,x_name,y_name),dpi=300)
-    plt.clf()
+# #    print('Done!')
+
+#     #Exclude end only
+#     #interior#
+
+#     index_excl  = np.where( (np.array(x) < 4000) ) 
+#     x_excl = x[index_excl]
+#     y_excl = y[index_excl]
+
+#     # x = np.array(x)
+#     # y = np.array(y)
+#     # index = np.where( (x > 10) & (x < 4010) )
+#     # x = x[index]
+#     # y = y[index]
+#     name_excl = 'Masked_Exclude_'+name
+
+#     theta_excl = np.polyfit(x_excl, y_excl, 1)
+#     y_line_excl = theta_excl[1] + theta_excl[0] * x_excl
+#     res_excl = y_excl - y_line_excl
+
+#     plt.figure(1, figsize = (8,6))
+#     plt.scatter(x_excl, y_excl, s=10.0)
+#     plt.plot(x_excl,y_line_excl, color='red', linewidth=1.0)
+#     plt.title("{0}".format(name))
+#     plt.xlabel(xlabel, labelpad = 0.5, fontsize = 10)
+#     plt.ylabel(ylabel, labelpad = 0.5, fontsize = 10)
+#     plt.grid(visible=True, which='both', axis='both', linestyle='--', linewidth=0.5)
+#     ax = plt.gca()
+#     plt.text(0.1,0.8, "y = {0:5.3f} x + {1:5.3f}".format(theta_excl[0],theta_excl[1]),
+#              transform = ax.transAxes, size=10, color="red")
+#     plt.savefig("test_plots/{0}_{1}_{2}_{3}.png".format(name_excl,supply,x_name,y_name),dpi=300)
+#     plt.clf()
     
-    plt.figure(3, figsize=(8,6))
-    plt.hist(res_excl)#, histtype='step')
-    plt.title("Hist_Residuals_{0}".format(name))
-    plt.xlabel(xlabel, labelpad = 0.5, fontsize = 10)
-    plt.ylabel('Counts', labelpad = 0.5, fontsize = 10)
-    plt.grid(visible=True, which='both', axis='both',linestyle='--', linewidth=0.5)
-    plt.savefig("test_plots/{0}_{1}_{2}_{3}_Hist.png".format(name_excl,supply,x_name,y_name),dpi=300)
-    plt.clf()
+#     plt.figure(2, figsize=(8,6))
+#     plt.scatter(x_excl, res_excl, s=10.0)
+#     plt.plot(x_excl,np.zeros(len(x_excl)), color='red', linewidth=1.0, linestyle='-')
+#     plt.title("Residuals_{0}".format(name))
+#     plt.xlabel(xlabel, labelpad = 0.5, fontsize = 10)
+#     plt.ylabel(ylabel, labelpad = 0.5, fontsize = 10)
+#     plt.grid(visible=True, which='both', axis='both',linestyle='--', linewidth=0.5)
+#     plt.savefig("test_plots/{0}_{1}_{2}_{3}_Res.png".format(name_excl,supply,x_name,y_name),dpi=300)
+#     plt.clf()
+    
+#     plt.figure(3, figsize=(8,6))
+#     plt.hist(res_excl)#, histtype='step')
+#     plt.title("Hist_Residuals_{0}".format(name))
+#     plt.xlabel(xlabel, labelpad = 0.5, fontsize = 10)
+#     plt.ylabel('Counts', labelpad = 0.5, fontsize = 10)
+#     plt.grid(visible=True, which='both', axis='both',linestyle='--', linewidth=0.5)
+#     plt.savefig("test_plots/{0}_{1}_{2}_{3}_Hist.png".format(name_excl,supply,x_name,y_name),dpi=300)
+#     plt.clf()
 
     
     print("Done!")
@@ -403,6 +413,19 @@ def plotter(x, y, name, xlabel='x_val', ylabel='y_val', supply='HV', x_name='inp
 #########
 ##Plots##
 #########
+x=df['VpgmCat'][0:5]
+y=df['DMMCat'][0:5]
+
+plotter(x, y, name, xlabel='Vpgm Cathode', ylabel='DMM Cathode',
+        x_name='VPGM_Cathode', y_name='DMM_Cathode', supply='Cathode')
+
+exit()
+
+
+
+
+
+
 #def plotter(x, y, name, xlabel='x_val', ylabel='y_val', supply='HV', x_name='input', y_name='data'):
 
 if g.supply == 'Cathode':
