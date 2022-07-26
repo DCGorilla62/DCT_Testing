@@ -104,6 +104,119 @@ print('\n')
 #              'C': {'DAC_Volts': [], 'DAC_Current_Limit': [], 'ADC_Voltage': [], 'ADC_Current': []}}
 
 #Reads data from second file and appends to dictionary        
+
+
+# data_dict = {'P': {'DAC': [], 'ADC_Voltage': [], 'ADC_Current': []},
+#                   'C': {'DAC': [], 'ADC_Voltage': [], 'ADC_Current': []},
+#                   'HV': {'DAC': [], 'Voltage': []}}
+
+# #Reads data from first file and appends to dictionary
+# with open(filename) as f:
+#     for line in f:
+#         HV = [float(value) for value in line.split(',')]
+#         data_dict['HV']['DAC'].append(HV[0])
+#         data_dict['HV']['Voltage'].append(HV[1])
+
+# #Reads data from second file and appends to dictionary        
+# with open(filename2) as f2:
+#     for line in f2:
+#         P = [float(value) for value in line.split()[1].split(',')]
+#         C = [float(value) for value in line.split()[3].split(',')]
+#         data_dict['P']['DAC'].append(P[0]) 
+#         data_dict['P']['ADC_Voltage'].append(P[1]) 
+#         data_dict['P']['ADC_Current'].append(P[2]) 
+#         data_dict['C']['DAC'].append(C[0]) 
+#         data_dict['C']['ADC_Voltage'].append(C[1]) 
+#         data_dict['C']['ADC_Current'].append(C[2]) 
+
+
+
+
+def creator(filename):
+    '''
+    '''
+    #creating empty dictionary where I will store my data
+    data_0702 = {'P': {'DAC': [], 'ADC_Voltage': [], 'ADC_Current': []},
+                  'C': {'DAC': [], 'ADC_Voltage': [], 'ADC_Current': []}}
+
+    data_0722 = {'P': {'DAC_Volts': [], 'DAC_Current_Limit': [], 'ADC_Voltage': [], 'ADC_Current': []},
+                 'C': {'DAC_Volts': [], 'DAC_Current_Limit': [], 'ADC_Voltage': [], 'ADC_Current': []}}
+    
+    
+    #Reads data from second file and appends to dictionary        
+    with open(filename) as f:
+        for line in f:
+            P = [float(value) for value in line.split()[1].split(',')]
+            # print(P)
+            # exit()
+            C = [float(value) for value in line.split()[3].split(',')]
+            if len(P) == 4:
+                data_0722['P']['DAC_Volts'].append(P[0])
+                data_0722['P']['DAC_Current_Limit'].append(P[1]) 
+                data_0722['P']['ADC_Voltage'].append(P[2]) 
+                data_0722['P']['ADC_Current'].append(P[3]) 
+                data_0722['C']['DAC_Volts'].append(C[0])
+                data_0722['C']['DAC_Current_Limit'].append(C[1]) 
+                data_0722['C']['ADC_Voltage'].append(C[2]) 
+                data_0722['C']['ADC_Current'].append(C[3]) 
+            elif len(P) == 3:
+                data_0702['P']['DAC'].append(P[0]) 
+                data_0702['P']['ADC_Voltage'].append(P[1]) 
+                data_0702['P']['ADC_Current'].append(P[2]) 
+                data_0702['C']['DAC'].append(C[0]) 
+                data_0702['C']['ADC_Voltage'].append(C[1]) 
+                data_0702['C']['ADC_Current'].append(C[2]) 
+            else:
+                print("This will not work the way you think it will")
+    return data_0702, data_0722
+            #print(data_dict)
+
+
+x = creator(filename)
+print(x)
+
+exit()
+
+
+
+def creator(filename):
+    '''
+    '''
+    #creating empty dictionary where I will store my data
+    data_dict = {'P': {'DAC_Volts': [], 'DAC_Current_Limit': [], 'ADC_Voltage': [], 'ADC_Current': []},
+                 'C': {'DAC_Volts': [], 'DAC_Current_Limit': [], 'ADC_Voltage': [], 'ADC_Current': []}}
+    
+    #Reads data from second file and appends to dictionary        
+    with open(filename) as f:
+        for line in f:
+            P = [float(value) for value in line.split()[1].split(',')]
+            # print(P)
+            # exit()
+            C = [float(value) for value in line.split()[3].split(',')]
+            data_dict['P']['DAC_Volts'].append(P[0])
+            data_dict['P']['DAC_Current_Limit'].append(P[1]) 
+            data_dict['P']['ADC_Voltage'].append(P[2]) 
+            data_dict['P']['ADC_Current'].append(P[3]) 
+            data_dict['C']['DAC_Volts'].append(C[0])
+            data_dict['C']['DAC_Current_Limit'].append(C[1]) 
+            data_dict['C']['ADC_Voltage'].append(C[2]) 
+            data_dict['C']['ADC_Current'].append(C[3]) 
+            
+    return data_dict
+            #print(data_dict)
+
+
+x = creator(filename)
+print(x)
+
+exit()
+
+
+
+
+
+
+
 def dictionary_maker(filename):
     print(filename)
     dict_name = {'P': {'DAC_Volts': [], 'DAC_Current_Limit': [], 'ADC_Voltage': [], 'ADC_Current': []},

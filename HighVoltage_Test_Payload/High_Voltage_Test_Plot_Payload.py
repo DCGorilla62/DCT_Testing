@@ -133,7 +133,7 @@ print(df)
 
         
 #Define a plotting function to make scatter plot and fit a line to it
-def plotter(x, y, name, xlabel='x_val', ylabel='y_val', supply='HV', x_name='input', y_name='data'):
+def plotter(x, y, name, title=name, xlabel='x_val', ylabel='y_val', supply='HV', x_name='input', y_name='data'):
     '''
     Simple plot maker. Will make a scatter plot and 
     fit the data with numpy.polyfit()
@@ -152,7 +152,7 @@ def plotter(x, y, name, xlabel='x_val', ylabel='y_val', supply='HV', x_name='inp
     plt.figure(1, figsize = (8,6))
     plt.scatter(x, y, s=10.0)
     plt.plot(x,y_line, color='red', linewidth=1.0)
-    plt.title("{0}".format(name))
+    plt.title("{0}".format(title))
     plt.xlabel(xlabel, labelpad = 0.5, fontsize = 10)
     plt.ylabel(ylabel, labelpad = 0.5, fontsize = 10)
     plt.grid(visible=True, which='both', axis='both', linestyle='--', linewidth=0.5)
@@ -165,7 +165,7 @@ def plotter(x, y, name, xlabel='x_val', ylabel='y_val', supply='HV', x_name='inp
     plt.figure(2, figsize=(8,6))
     plt.scatter(x, res, s=10.0)
     plt.plot(x,np.zeros(len(x)), color='red', linewidth=1.0, linestyle='-')
-    plt.title("Residuals_{0}".format(name))
+    plt.title("Residuals_{0}".format(title))
     plt.xlabel(xlabel, labelpad = 0.5, fontsize = 10)
     plt.ylabel(ylabel, labelpad = 0.5, fontsize = 10)
     plt.grid(visible=True, which='both', axis='both',linestyle='--', linewidth=0.5)
@@ -174,7 +174,7 @@ def plotter(x, y, name, xlabel='x_val', ylabel='y_val', supply='HV', x_name='inp
     
     plt.figure(3, figsize=(8,6))
     plt.hist(res)#, histtype='step')
-    plt.title("Hist_Residuals_{0}".format(name))
+    plt.title("Hist_Residuals_{0}".format(title))
     plt.xlabel(xlabel, labelpad = 0.5, fontsize = 10)
     plt.ylabel('Counts', labelpad = 0.5, fontsize = 10)
     plt.grid(visible=True, which='both', axis='both',linestyle='--', linewidth=0.5)
@@ -416,7 +416,7 @@ def plotter(x, y, name, xlabel='x_val', ylabel='y_val', supply='HV', x_name='inp
 x=df['VpgmCat'][0:5]
 y=df['DMMCat'][0:5]
 
-plotter(x, y, name, xlabel='Vpgm Cathode', ylabel='DMM Cathode',
+plotter(x, y, name, title='Cathode Supply', xlabel='Control (Volts)', ylabel='DMM (Volts)',
         x_name='VPGM_Cathode', y_name='DMM_Cathode', supply='Cathode')
 
 exit()
