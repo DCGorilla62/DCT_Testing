@@ -9,37 +9,27 @@
 #######################################################
 """
 =======================
-##High_Voltage_Test_Plot_07022022.py##
+##test.py##
 ======================
 Author: Dennis H. Calderon
 Email: calderon-madera.1@osu.edu
-Date: July 03, 2022
-Modified: July 05, 2022
+Date: July 26, 2022
+Modified: 
 =======================
 Descripiton: 
-This PYTHON script will take in 2 csv files of data from the High Voltage 
-testing done at Indiana Universiry on July 02, 2022. The test was done for 
-both supply 1 (under load) and supply 2 (under load and no load).
-Data was taken by hand (Me) for given DAC and voltage reading.
-Data was saved from serial output of DAC and ADC_Voltage and ADC_Current 
-for POTENTIAL supply and CATHODE supply.
-
-The script will create plots for DAC vs other variables when it can and 
-also fit a line and label the paramers when appropiate.
 
 Note:
 The files should be prepped using,
  grep | sed > filename.txt
 =======================
 Usage:
-python High_Voltage_Test_Plot.py <filename1> <filename2>
 
 =======================
 Options:
 
 =======================
 example:
-python High_Voltage_Test_Plot.py Supply_1_Load_36M_Ohm.csv large_load_HVSupply1.txt
+
 =======================
 """
 
@@ -47,9 +37,10 @@ python High_Voltage_Test_Plot.py Supply_1_Load_36M_Ohm.csv large_load_HVSupply1.
 import timeit
 start = timeit.default_timer()
 #######################################################
+script_name = 'test'
 print("\n")
 print('\033[1;37m#\033[0;0m'*50)
-print("Now running \033[1;4;5;31mHigh_Voltage_Test_Plot.py\033[0;0m!")
+print("Now running \033[1;4;5;31m{0}\033[0;0m!".format(script_name))
 print('\033[1;37m#\033[0;0m'*50)
 print('\n')
 ##########################################
