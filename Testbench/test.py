@@ -438,6 +438,59 @@ def plotter(x, y, name, title='title', xlabel='x_val', ylabel='y_val', supply='H
     
     return
 
+def payload_plotter(x, y, name, title='title', xlabel='x_val', ylabel='y_val', supply='HV', x_name='input', y_name='data'):
+    '''
+    Simple plot maker. Will make a scatter plot and 
+    fit the data with numpy.polyfit()
+    '''
+    
+    #
+    print("Plotting...")
+    x = np.array(x)
+    y = np.array(y)
+    # print(x,y)
+    theta = np.polyfit(x, y, 1)
+    y_line = theta[1] + theta[0] * x
+    res = y - y_line
+    #vprint(res)
+    
+    plt.figure(1, figsize = (8,6))
+    plt.scatter(x, y, s=10.0)
+    plt.plot(x,y_line, color='red', linewidth=1.0)
+    plt.title("{0}".format(title))
+    plt.xlabel(xlabel, labelpad = 0.5, fontsize = 10)
+    plt.ylabel(ylabel, labelpad = 0.5, fontsize = 10)
+    plt.grid(visible=True, which='both', axis='both', linestyle='--', linewidth=0.5)
+    ax = plt.gca()
+    plt.text(0.1,0.8, "y = {0:5.3f} x + {1:5.3f}".format(theta[0],theta[1]),
+             transform = ax.transAxes, size=10, color="red")
+    plt.savefig("test_plots/{0}_{1}_{2}_{3}.png".format(name,supply,x_name,y_name),dpi=300)
+    plt.clf()
+    
+    plt.figure(2, figsize=(8,6))
+    plt.scatter(x, res, s=10.0)
+    plt.plot(x,np.zeros(len(x)), color='red', linewidth=1.0, linestyle='-')
+    plt.title("Residuals_{0}".format(title))
+    plt.xlabel(xlabel, labelpad = 0.5, fontsize = 10)
+    plt.ylabel(ylabel, labelpad = 0.5, fontsize = 10)
+    plt.grid(visible=True, which='both', axis='both',linestyle='--', linewidth=0.5)
+    plt.savefig("test_plots/{0}_{1}_{2}_{3}_Res.png".format(name,supply,x_name,y_name),dpi=300)
+    plt.clf()
+    
+    plt.figure(3, figsize=(8,6))
+    plt.hist(res)#, histtype='step')
+    plt.title("Hist_Residuals_{0}".format(title))
+    plt.xlabel(xlabel, labelpad = 0.5, fontsize = 10)
+    plt.ylabel('Counts', labelpad = 0.5, fontsize = 10)
+    plt.grid(visible=True, which='both', axis='both',linestyle='--', linewidth=0.5)
+    plt.savefig("test_plots/{0}_{1}_{2}_{3}_Hist.png".format(name,supply,x_name,y_name),dpi=300)
+    plt.clf()
+    
+    print('Done!')
+    return
+
+
+
 #########
 ##Plots##
 #########
@@ -473,7 +526,7 @@ data_0702_NP = creator_0702(directory+'Indiana_07022022/Potential_No_Load_070220
 
 ##
 ############
-####3Plots 0702
+####Plots 0702
 #######
 #Cathode
 
@@ -600,302 +653,99 @@ plotter(data_0702_NP['P']['DAC'], data_0702_NP['C']['ADC_Current'],
         x_name='DAC', y_name='ADC_Current', supply='Both_Potential')
 
 
+##########################3
+####Plots 0722
+#######
+
+print('Plots from Idiana University test 07222022')
+
+#Cathode
+print('Cathode No lod')
+#None
+name='Cathode_No_Load_07222022'
+
+plotter(data_0722_C['C']['DAC_Volts'], data_0722_C['C']['ADC_Voltage'], 
+        name='Cathode_No_Load_07222022', title=name, 
+        xlabel='DAC Volts', ylabel='Voltage (ADC Code)', 
+        x_name='DAC_Volts', y_name='ADC_Voltage', supply='Cathode')
+plotter(data_0722_C['C']['DAC_Volts'], data_0722_C['C']['ADC_Current'], 
+        name='Cathode_No_Load_07222022', title=name, 
+        xlabel='DAC Volts', ylabel='Current (ADC Code)', 
+        x_name='DAC_Volts', y_name='ADC_Curent', supply='Cathode')
+plotter(data_0722_C['C']['ADC_Voltage'], data_0722_C['C']['ADC_Current'], 
+        name='Cathode_No_Load_07222022', title=name, 
+        xlabel='Voltage (ADC Code)', ylabel='Current (ADC Code)', 
+        x_name='ADC_Voltage', y_name='ADC_Current', supply='Same_Cathode')
+
+#different supplies
+plotter(data_0722_C['C']['DAC_Volts'], data_0722_C['P']['ADC_Voltage'], 
+        name='Cathode_No_Load_07222022', title=name, 
+        xlabel='DAC Volts', ylabel='Voltage (ADC Code)', 
+        x_name='DAC_Volts', y_name='ADC_Current', supply='Both_Cathode')
+plotter(data_0722_C['C']['DAC_Volts'], data_0722_C['P']['ADC_Current'], 
+        name='Cathode_No_Load_07222022',  title=name, 
+        xlabel='DAC Volts', ylabel='Current (ADC Code)', 
+        x_name='DAC_Volts', y_name='ADC_Current', supply='Both_Cathode')
+
+###
+
+#Potential
+print('Potential No lod')
+#None
+name='Potential_No_Load_07222022'
+
+plotter(data_0722_P['P']['DAC_Volts'], data_0722_P['P']['ADC_Voltage'], 
+        name='Potential_No_Load_07222022', title=name, 
+        xlabel='DAC Volts', ylabel='Voltage (ADC Code)', 
+        x_name='DAC_Volts', y_name='ADC_Voltage', supply='Potential')
+plotter(data_0722_P['P']['DAC_Volts'], data_0722_P['P']['ADC_Current'], 
+        name='Potential_No_Load_07222022', title=name, 
+        xlabel='DAC Volts', ylabel='Current (ADC Code)', 
+        x_name='DAC_Volts', y_name='ADC_Curent', supply='Potential')
+plotter(data_0722_P['P']['ADC_Voltage'], data_0722_P['P']['ADC_Current'], 
+        name='Potential_No_Load_07222022', title=name, 
+        xlabel='Voltage (ADC Code)', ylabel='Current (ADC Code)', 
+        x_name='ADC_Voltage', y_name='ADC_Current', supply='Same_Potential')
+
+#different supplies
+plotter(data_0722_P['P']['DAC_Volts'], data_0722_P['C']['ADC_Voltage'], 
+        name='Potential_No_Load_07222022', title=name, 
+        xlabel='DAC Volts', ylabel='Voltage (ADC Code)', 
+        x_name='DAC_Volts', y_name='ADC_Current', supply='Both_Potential')
+plotter(data_0722_P['P']['DAC_Volts'], data_0722_P['C']['ADC_Current'], 
+        name='Potential_No_Load_07222022',  title=name, 
+        xlabel='DAC Volts', ylabel='Current (ADC Code)', 
+        x_name='DAC_Volts', y_name='ADC_Current', supply='Both_Potential')
+
+
+############
+print('Plots from Chicago University payload test')
+
+##No Load
+print('Cathode')
+
+#data_payload = creator_payload(directory+'Chicago_07202022/payload_data.txt')
+
+name = 'Cathode Supply Payload'
+payload_plotter(data_payload['VpgmCat'][0:5], data_payload['DMMCat'][0:5], 
+        name='Cathode_No_Load_Payload',  title=name, 
+        xlabel='Control Volts', ylabel='DMM Volts', 
+        x_name='Vpgm_Cathode', y_name='DMM_Cathode', supply='Cathode')
+
+
+
+##No Load
+print('Potential')
+
+#data_payload = creator_payload(directory+'Chicago_07202022/payload_data.txt')
+
+name = 'Potential Supply Payload'
+payload_plotter(data_payload['VpgmPot'][0:5], data_payload['DMMPot'][0:5], 
+        name='Potential_No_Load_Payload',  title=name, 
+        xlabel='Control Volts', ylabel='DMM Volts', 
+        x_name='Vpgm_Potential', y_name='DMM_Potential', supply='Potential')
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-exit()
-
-
-
-plotter(x1, y1, 'Indiana_0702_Test', title='Cathode Supply', xlabel='DAC Code', ylabel='ADC Voltage',
-        x_name='VPGM_Cathode', y_name='DMM_Cathode', supply='Cathode')
-
-
-
-plotter(x_p, y_p, 'Indiana_0702_Test', title='Cathode Supply', xlabel='Control (Volts)', ylabel='DMM (Volts)',
-        x_name='VPGM_Cathode', y_name='DMM_Cathode', supply='Cathode')
-
-
-
-
-x_p = data_payload['VpgmCat'][0:5]
-y_p = data_payload['DMMCat'][0:5]
-
-#
-
-plotter(x_p, y_p, 'Payload_Test', title='Cathode Supply', xlabel='Control (Volts)', ylabel='DMM (Volts)',
-        x_name='VPGM_Cathode', y_name='DMM_Cathode', supply='Cathode')
-
-exit()
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-#def plotter(x, y, name, xlabel='x_val', ylabel='y_val', supply='HV', x_name='input', y_name='data'):
-
-if g.supply == 'Cathode':
-    plotter(data_dict['C']['DAC_Volts'], data_dict['C']['ADC_Voltage'], 
-            name='Cathode_Supply_No_Load_07222022', xlabel='DAC Volts', ylabel='Voltage (ADC Code)', 
-            x_name='DAC_Volts', y_name='ADC_Voltage', supply='Cathode')
-    plotter(data_dict['C']['DAC_Volts'], data_dict['C']['ADC_Current'], 
-            name='Cathode_Supply_No_Load_07222022', xlabel='DAC Volts', ylabel='Current (ADC Code)', 
-            x_name='DAC_Volts', y_name='ADC_Curent', supply='Cathode')
-    plotter(data_dict['C']['ADC_Voltage'], data_dict['C']['ADC_Current'], 
-            name='Cathode_Supply_No_Load_07222022', xlabel='Voltage (ADC Code)', ylabel='Current (ADC Code)', 
-            x_name='ADC_Voltage', y_name='ADC_Current', supply='Same_Cathode')
-    
-    #different supplies
-    plotter(data_dict['C']['DAC_Volts'], data_dict['P']['ADC_Voltage'], 
-            name='Cathode_Supply_No_Load_07222022', xlabel='DAC Volts', ylabel='Voltage (ADC Code)', 
-            x_name='DAC_Volts', y_name='ADC_Current', supply='Both_Cathode')
-    plotter(data_dict['C']['DAC_Volts'], data_dict['P']['ADC_Current'], 
-            name='Cathode_Supply_No_Load_07222022', xlabel='DAC Volts', ylabel='Current (ADC Code)', 
-            x_name='DAC_Volts', y_name='ADC_Current', supply='Both_Cathode')
-
-elif g.supply == 'Potential':
-    plotter(data_dict['P']['DAC_Volts'], data_dict['P']['ADC_Voltage'], 
-            name='Potential_Supply_No_Load_07222022', xlabel='DAC Volts', ylabel='Voltage (ADC Code)', 
-            x_name='DAC_Volts', y_name='ADC_Voltage', supply='Potential')
-    plotter(data_dict['P']['DAC_Volts'], data_dict['P']['ADC_Current'], 
-            name='Potential_Supply_No_Load_07222022', xlabel='DAC Volts', ylabel='Current (ADC Code)', 
-            x_name='DAC_Volts', y_name='ADC_Curent', supply='Potential')
-    plotter(data_dict['P']['ADC_Voltage'], data_dict['P']['ADC_Current'], 
-            name='Potential_Supply_No_Load_07222022', xlabel='Voltage (ADC Code)', ylabel='Current (ADC Code)', 
-            x_name='ADC_Voltage', y_name='ADC_Current', supply='Same_Potential')
-    
-    #different supplies
-    plotter(data_dict['P']['DAC_Volts'], data_dict['C']['ADC_Voltage'], 
-            name='Potential_Supply_No_Load_07222022', xlabel='DAC Volts', ylabel='Voltage (ADC Code)', 
-            x_name='DAC_Volts', y_name='ADC_Current', supply='Both_Potential')
-    plotter(data_dict['P']['DAC_Volts'], data_dict['C']['ADC_Current'], 
-            name='Potential_Supply_No_Load_07222022', xlabel='DAC Volts', ylabel='Current (ADC Code)', 
-            x_name='DAC_Volts', y_name='ADC_Current', supply='Both_Potential')
-
-
-stop = timeit.default_timer()
-print('Time: \033[1;31m{0}\033[0;0m'.format(stop - start))
-exit()
-
-# #
-# print("DAC vs ADC")
-# try:
-#     plotter(data_dict['P']['DAC'], data_dict['P']['ADC_Voltage'], 
-#             name, xlabel='DAC Code', ylabel='Voltage (ADC Code)', 
-#             x_name='DAC', y_name='ADC_Voltage', supply='P')
-#     plotter(data_dict['P']['DAC'], data_dict['P']['ADC_Current'], 
-#             name, xlabel='DAC Code', ylabel='Curent (ADC Code)', 
-#             x_name='DAC', y_name='ADC_Current', supply='P')
-    
-#     plotter(data_dict['C']['DAC'], data_dict['C']['ADC_Voltage'], 
-#             name, xlabel='DAC Code', ylabel='Voltage (ADC Code)', 
-#             x_name='DAC', y_name='ADC_Voltage', supply='C')
-#     plotter(data_dict['C']['DAC'], data_dict['C']['ADC_Current'], 
-#             name, xlabel='DAC Code', ylabel='Current (ADC Code)', 
-#             x_name='DAC', y_name='ADC_Voltage', supply='C')
-#     print('\n')
-
-# except:# ValueError:
-#     try:
-#         print('P')
-#         plotter(data_dict['P']['DAC'], data_dict['P']['ADC_Voltage'], 
-#                 name, xlabel='DAC Code', ylabel='Voltage (ADC Code)',
-#                 x_name='DAC', y_name='ADC_Voltage', supply='P')
-#         plotter(data_dict['P']['DAC'], data_dict['P']['ADC_Current'], 
-#                 name, xlabel='DAC Code', ylabel='Current (ADC Code)', 
-#                 x_name='DAC', y_name='ADC_Current', supply='P')
-#     except:# ValueError:
-#         try:
-#             print('C')
-#             plotter(data_dict['C']['DAC'], data_dict['C']['ADC_Voltage'], 
-#                     name, xlabel='DAC Code', ylabel='Voltage (ADC Code)', 
-#                     x_name='DAC', y_name='ADC_Voltage', supply='C')
-#             plotter(data_dict['C']['DAC'], data_dict['C']['ADC_Current'], 
-#                     name, xlabel='DAC Code', ylabel='Current (ADC Code)', 
-#                     x_name='DAC', y_name='ADC_Current', supply='C')
-#         except:
-#             print("Failed")
-#             #IndexError:
-#             #print("Event")
-# print('\n')
-
-# #Same supply ADC Volt vs ADC Current
-# print('Same')
-# print('ADC vs ADC')
-
-# try:
-#     plotter(data_dict['C']['ADC_Voltage'], data_dict['C']['ADC_Current'], 
-#             name, xlabel='Voltage (ADC Code)', ylabel='Current (ADC Code)', 
-#             x_name='ADC_Voltage', y_name='ADC_Current', supply='Same_C')
-#     # plotter(data_dict['C']['ADC_Voltage'], data_dict['C']['ADC_Current'], 
-#     #         name, xlabel='Voltage (ADC Code)', ylabel='Current (ADC Code)', 
-#     #         x_name='ADC_Voltage', y_name='ADC_Current', supply='Same_C')
-# except:
-#     #print("Failed")
-#     plotter(data_dict['P']['ADC_Voltage'], data_dict['P']['ADC_Current'], 
-#             name, xlabel='Voltage (ADC Code)', ylabel='Current (ADC Code)', 
-#             x_name='ADC_Voltage', y_name='ADC_Current', supply='Same_P')
-#     # plotter(data_dict['P']['ADC_Voltage'], data_dict['P']['ADC_Current'], 
-#     #         name, xlabel='Voltage (ADC Code)', ylabel='Current (ADC Code)', 
-#     #         x_name='ADC_Voltage', y_name='ADC_Current', supply='P')
-# print('\n')
-
-#Different Supplies
-print('Different Supplies')
-print('ADC vs ADC')
-
-try:
-    # plotter(data_dict['C']['ADC_Voltage'], data_dict['P']['ADC_Current'], 
-    #         name, xlabel='Voltage (ADC Code)', ylabel='Current (ADC Code)', 
-    #         x_name='ADC_Voltage', y_name='ADC_Current', supply='Both')
-    # plotter(data_dict['P']['ADC_Voltage'], data_dict['C']['ADC_Current'], 
-    #         name, xlabel='Voltage (ADC Code)', ylabel='Current (ADC Code)', 
-    #         x_name='ADC_Voltage', y_name='ADC_Current', supply='Both')
-
-    plotter(data_dict['P']['DAC'], data_dict['C']['ADC_Voltage'], 
-            name, xlabel='P: DAC Code', ylabel='C: Voltage (ADC Code)', 
-            x_name='DAC', y_name='ADC_Voltage', supply='Both_P')
-    plotter(data_dict['C']['DAC'], data_dict['P']['ADC_Voltage'], 
-            name, xlabel='C: DAC Code', ylabel='P: Voltage (ADC Code)', 
-            x_name='DAC', y_name='ADC_Voltage', supply='Both_C')
-
-except:
-    try:
-        # plotter(data_dict['P']['ADC_Voltage'], data_dict['C']['ADC_Current'], 
-        #         name, xlabel='Voltage (ADC Code)', ylabel='Current (ADC Code)', 
-        #         x_name='ADC_Voltage', y_name='ADC_Current', supply='Both')
-        plotter(data_dict['P']['DAC'], data_dict['C']['ADC_Voltage'], 
-                name, xlabel='P: DAC Code)', ylabel='C: Voltage (ADC Code)', 
-                x_name='DAC', y_name='ADC_Voltage', supply='Both_P')
-    except:
-        plotter(data_dict['C']['DAC'], data_dict['P']['ADC_Voltage'], 
-                name, xlabel='C: DAC Code', ylabel='P: Voltage (ADC Code)', 
-                x_name='DAC', y_name='ADC_Voltage', supply='Both_C')
-        # plotter(data_dict['C']['ADC_Voltage'], data_dict['P']['ADC_Current'], 
-        #         name, xlabel='Voltage (ADC Code)', ylabel='Current (ADC Code)', 
-        #         x_name='ADC_Voltage', y_name='ADC_Current', supply='Both')
-print('\n')        
-#    print("Failed")
-
-################
-##Masked Plots##
-################
-
-# #Makes plot from 'HV' (data taken by hand)    
-# masked_plotter(data_dict['HV']['DAC'], data_dict['HV']['Voltage'], 
-#         name, xlabel='DAC Code', ylabel='High Voltage Output (|V|)', 
-#         x_name='DAC', y_name='HighVoltage', supply='HV')
-
-
-# try:
-#     masked_plotter(data_dict['P']['DAC'], data_dict['P']['ADC_Voltage'], 
-#             name, xlabel='DAC Code', ylabel='Voltage (ADC Code)', 
-#             x_name='DAC', y_name='ADC_Voltage', supply='P')
-#     masked_plotter(data_dict['P']['DAC'], data_dict['P']['ADC_Current'], 
-#             name, xlabel='DAC Code', ylabel='Curent (ADC Code)', 
-#             x_name='DAC', y_name='ADC_Current', supply='P')
-    
-#     masked_plotter(data_dict['C']['DAC'], data_dict['C']['ADC_Voltage'], 
-#             name, xlabel='DAC Code', ylabel='Voltage (ADC Code)', 
-#             x_name='DAC', y_name='ADC_Voltage', supply='C')
-#     masked_plotter(data_dict['C']['DAC'], data_dict['C']['ADC_Current'], 
-#             name, xlabel='DAC Code', ylabel='Current (ADC Code)', 
-#             x_name='DAC', y_name='ADC_Voltage', supply='C')
-
-# except:# ValueError:
-#     try:
-#         masked_plotter(data_dict['P']['DAC'], data_dict['P']['ADC_Voltage'], 
-#                 name, xlabel='DAC Code', ylabel='Voltage (ADC Code)',
-#                 x_name='DAC', y_name='ADC_Voltage', supply='P')
-#         masked_plotter(data_dict['P']['DAC'], data_dict['P']['ADC_Current'], 
-#                 name, xlabel='DAC Code', ylabel='Current (ADC Code)', 
-#                 x_name='DAC', y_name='ADC_Current', supply='P')
-#     except:# ValueError:
-#         try:
-#             masked_plotter(data_dict['C']['DAC'], data_dict['C']['ADC_Voltage'], 
-#                     name, xlabel='DAC Code', ylabel='Voltage (ADC Code)', 
-#                     x_name='DAC', y_name='ADC_Voltage', supply='C')
-#             masked_plotter(data_dict['C']['DAC'], data_dict['C']['ADC_Current'], 
-#                     name, xlabel='DAC Code', ylabel='Current (ADC Code)', 
-#                     x_name='DAC', y_name='ADC_Current', supply='C')
-#         except:
-#             #IndexError:
-#             print("Event")
-
-
-#print(name+'_Masked')
-# ##Masked##
-# index_P = np.where(np.array(data_dict['P']['DAC']) < 4000)
-# # index_C = np.where(data_dict['C']['DAC'] < 4000)
-# # index_HV = np.where(data_dict['HV']['DAC'] < 4000)
-# # plt.scatter(np.array(Adist_0)[np.where( (Adepth > 4000) & (Adepth <= 4200) )], np.cos(np.array(Atheta_rec_0)[np.where( (Adepth > 4000) & (Adepth <= 4200) )]), s=1.0, alpha=0.25)#, color='indigo')
-# print(index_P)
-# print(np.array(data_dict['P']['DAC'])[index_P])
-# exit()
-
-# try:
-#     plotter(data_dict['P']['DAC'], data_dict['P']['ADC_Voltage'], 
-#             name, xlabel='DAC Code', ylabel='Voltage (ADC Code)', 
-#             x_name='DAC', y_name='ADC_Voltage', supply='P')
-#     plotter(data_dict['P']['DAC'], data_dict['P']['ADC_Current'], 
-#             name, xlabel='DAC Code', ylabel='Curent (ADC Code)', 
-#             x_name='DAC', y_name='ADC_Current', supply='P')
-    
-#     plotter(data_dict['C']['DAC'], data_dict['C']['ADC_Voltage'], 
-#             name, xlabel='DAC Code', ylabel='Voltage (ADC Code)', 
-#             x_name='DAC', y_name='ADC_Voltage', supply='C')
-#     plotter(data_dict['C']['DAC'], data_dict['C']['ADC_Current'], 
-#             name, xlabel='DAC Code', ylabel='Current (ADC Code)', 
-#             x_name='DAC', y_name='ADC_Voltage', supply='C')
-    
-# except:# ValueError:
-#     try:
-#         plotter(data_dict['P']['DAC'], data_dict['P']['ADC_Voltage'], 
-#                 name, xlabel='DAC Code', ylabel='Voltage (ADC Code)',
-#                 x_name='DAC', y_name='ADC_Voltage', supply='P')
-#         plotter(data_dict['P']['DAC'], data_dict['P']['ADC_Current'], 
-#                 name, xlabel='DAC Code', ylabel='Current (ADC Code)', 
-#                 x_name='DAC', y_name='ADC_Current', supply='P')
-#     except:# ValueError:
-#         try:
-#             plotter(data_dict['C']['DAC'], data_dict['C']['ADC_Voltage'], 
-#                     name, xlabel='DAC Code', ylabel='Voltage (ADC Code)', 
-#                     x_name='DAC', y_name='ADC_Voltage', supply='C')
-#             plotter(data_dict['C']['DAC'], data_dict['C']['ADC_Current'], 
-#                     name, xlabel='DAC Code', ylabel='Current (ADC Code)', 
-#                     x_name='DAC', y_name='ADC_Current', supply='C')
-#         except:
-#             #IndexError:
-#             print("Event")
 
 ##End of script##
 stop = timeit.default_timer()
