@@ -90,100 +90,58 @@ print(name)
 print('#'*28)
 print('\n')
 
-#creating empty dictionary where I will store my data
-# data_dict = {'P': {'DAC_Volts': [], 'DAC_Current_Limit': [], 'ADC_Voltage': [], 'ADC_Current': []},
-#              'C': {'DAC_Volts': [], 'DAC_Current_Limit': [], 'ADC_Voltage': [], 'ADC_Current': []}}
+###
+'''
+making different dictionary making functions for the different data 
+'''
+###
 
-#Reads data from second file and appends to dictionary        
-
-
-# data_dict = {'P': {'DAC': [], 'ADC_Voltage': [], 'ADC_Current': []},
-#                   'C': {'DAC': [], 'ADC_Voltage': [], 'ADC_Current': []},
-#                   'HV': {'DAC': [], 'Voltage': []}}
-
-# #Reads data from first file and appends to dictionary
-# with open(filename) as f:
-#     for line in f:
-#         HV = [float(value) for value in line.split(',')]
-#         data_dict['HV']['DAC'].append(HV[0])
-#         data_dict['HV']['Voltage'].append(HV[1])
-
-# #Reads data from second file and appends to dictionary        
-# with open(filename2) as f2:
-#     for line in f2:
-#         P = [float(value) for value in line.split()[1].split(',')]
-#         C = [float(value) for value in line.split()[3].split(',')]
-#         data_dict['P']['DAC'].append(P[0]) 
-#         data_dict['P']['ADC_Voltage'].append(P[1]) 
-#         data_dict['P']['ADC_Current'].append(P[2]) 
-#         data_dict['C']['DAC'].append(C[0]) 
-#         data_dict['C']['ADC_Voltage'].append(C[1]) 
-#         data_dict['C']['ADC_Current'].append(C[2]) 
-
-
-
-
-def creator(filename):
+#funtion for creating dictionary from HV test on 07022022
+def creator_0702(filename):
     '''
     '''
     #creating empty dictionary where I will store my data
-    data_0702 = {'P': {'DAC': [], 'ADC_Voltage': [], 'ADC_Current': []},
+    
+    data_dict = {'P': {'DAC': [], 'ADC_Voltage': [], 'ADC_Current': []},
                   'C': {'DAC': [], 'ADC_Voltage': [], 'ADC_Current': []}}
-
-    data_0722 = {'P': {'DAC_Volts': [], 'DAC_Current_Limit': [], 'ADC_Voltage': [], 'ADC_Current': []},
-                 'C': {'DAC_Volts': [], 'DAC_Current_Limit': [], 'ADC_Voltage': [], 'ADC_Current': []}}
     
-    
-    #Reads data from second file and appends to dictionary        
+    #read in file
     with open(filename) as f:
+        
+        #read line by line
         for line in f:
+            
+            #splitting line into values
             P = [float(value) for value in line.split()[1].split(',')]
-            # print(P)
-            # exit()
             C = [float(value) for value in line.split()[3].split(',')]
-            if len(P) == 4:
-                data_0722['P']['DAC_Volts'].append(P[0])
-                data_0722['P']['DAC_Current_Limit'].append(P[1]) 
-                data_0722['P']['ADC_Voltage'].append(P[2]) 
-                data_0722['P']['ADC_Current'].append(P[3]) 
-                data_0722['C']['DAC_Volts'].append(C[0])
-                data_0722['C']['DAC_Current_Limit'].append(C[1]) 
-                data_0722['C']['ADC_Voltage'].append(C[2]) 
-                data_0722['C']['ADC_Current'].append(C[3]) 
-            elif len(P) == 3:
-                data_0702['P']['DAC'].append(P[0]) 
-                data_0702['P']['ADC_Voltage'].append(P[1]) 
-                data_0702['P']['ADC_Current'].append(P[2]) 
-                data_0702['C']['DAC'].append(C[0]) 
-                data_0702['C']['ADC_Voltage'].append(C[1]) 
-                data_0702['C']['ADC_Current'].append(C[2]) 
-            else:
-                print("This will not work the way you think it will")
-    return data_0702, data_0722
-            #print(data_dict)
 
+            data_dict['P']['DAC'].append(P[0]) 
+            data_dict['P']['ADC_Voltage'].append(P[1]) 
+            data_dict['P']['ADC_Current'].append(P[2]) 
+            data_dict['C']['DAC'].append(C[0]) 
+            data_dict['C']['ADC_Voltage'].append(C[1]) 
+            data_dict['C']['ADC_Current'].append(C[2]) 
+            
+    return data_dict
 
-x = creator(filename)
-print(x)
-
-exit()
-
-
-
-def creator(filename):
+#funtion for creating dictionary from HV test on 07222022
+def creator_0722(filename):
     '''
     '''
     #creating empty dictionary where I will store my data
     data_dict = {'P': {'DAC_Volts': [], 'DAC_Current_Limit': [], 'ADC_Voltage': [], 'ADC_Current': []},
                  'C': {'DAC_Volts': [], 'DAC_Current_Limit': [], 'ADC_Voltage': [], 'ADC_Current': []}}
     
-    #Reads data from second file and appends to dictionary        
+    #read in file
     with open(filename) as f:
+        
+        #read line by line
         for line in f:
+            
+            #splitting line into values
             P = [float(value) for value in line.split()[1].split(',')]
-            # print(P)
-            # exit()
             C = [float(value) for value in line.split()[3].split(',')]
+            
             data_dict['P']['DAC_Volts'].append(P[0])
             data_dict['P']['DAC_Current_Limit'].append(P[1]) 
             data_dict['P']['ADC_Voltage'].append(P[2]) 
@@ -194,7 +152,7 @@ def creator(filename):
             data_dict['C']['ADC_Current'].append(C[3]) 
             
     return data_dict
-            #print(data_dict)
+
 
 
 x = creator(filename)
@@ -202,64 +160,9 @@ print(x)
 
 exit()
 
-
-
-
-
-
-
-def dictionary_maker(filename):
-    print(filename)
-    dict_name = {'P': {'DAC_Volts': [], 'DAC_Current_Limit': [], 'ADC_Voltage': [], 'ADC_Current': []},
-                 'C': {'DAC_Volts': [], 'DAC_Current_Limit': [], 'ADC_Voltage': [], 'ADC_Current': []}}
-
-    with open(filename) as f:
-        print(f)
-        for line in f:
-            P = [float(value) for value in line.split()[1].split(',')]
-            print(P)
-            print(len(P))
-            # exit()
-            C = [float(value) for value in line.split()[3].split(',')]
-#            if len(P) == 4:
-                # dict_name = {'P': {'DAC_Volts': [], 'DAC_Current_Limit': [], 'ADC_Voltage': [], 'ADC_Current': []},
-             # 'C': {'DAC_Volts': [], 'DAC_Current_Limit': [], 'ADC_Voltage': [], 'ADC_Current': []}}
-
-            dict_name['P']['DAC_Volts'].append(P[0])
-            dict_name['P']['DAC_Current_Limit'].append(P[1]) 
-            dict_name['P']['ADC_Voltage'].append(P[2]) 
-            dict_name['P']['ADC_Current'].append(P[3]) 
-            dict_name['C']['DAC_Volts'].append(C[0])
-            dict_name['C']['DAC_Current_Limit'].append(C[1]) 
-            dict_name['C']['ADC_Voltage'].append(C[2]) 
-            dict_name['C']['ADC_Current'].append(C[3])
-            print(dict_name)
-            # elif len(P) == 3:
-            #     dict_name = {'P': {'DAC': [], 'ADC_Voltage': [], 'ADC_Current': []},
-            #       'C': {'DAC': [], 'ADC_Voltage': [], 'ADC_Current': []},
-            #       'HV': {'DAC': [], 'Voltage': []}}
-                
-            #     dict_name['P']['DAC'].append(P[0]) 
-            #     dict_name['P']['ADC_Voltage'].append(P[1]) 
-            #     dict_name['P']['ADC_Current'].append(P[2]) 
-            #     dict_name['C']['DAC'].append(C[0]) 
-            #     dict_name['C']['ADC_Voltage'].append(C[1]) 
-            #     dict_name['C']['ADC_Current'].append(C[2]) 
-        
-            # else:
-            #     print("This isn't going to work...")
-#
-            return dict_name
-#print(data_dict)
-# exit()
-
-x = dictionary_maker(filename)
-print(x)
-
-exit()
         
 #Define a plotting function to make scatter plot and fit a line to it
-def plotter(x, y, name, xlabel='x_val', ylabel='y_val', supply='HV', x_name='input', y_name='data'):
+def plotter(x, y, name, title=name, xlabel='x_val', ylabel='y_val', supply='HV', x_name='input', y_name='data'):
     '''
     Simple plot maker. Will make a scatter plot and 
     fit the data with numpy.polyfit()
@@ -278,7 +181,7 @@ def plotter(x, y, name, xlabel='x_val', ylabel='y_val', supply='HV', x_name='inp
     plt.figure(1, figsize = (8,6))
     plt.scatter(x, y, s=10.0)
     plt.plot(x,y_line, color='red', linewidth=1.0)
-    plt.title("{0}".format(name))
+    plt.title("{0}".format(title))
     plt.xlabel(xlabel, labelpad = 0.5, fontsize = 10)
     plt.ylabel(ylabel, labelpad = 0.5, fontsize = 10)
     plt.grid(visible=True, which='both', axis='both', linestyle='--', linewidth=0.5)
@@ -291,7 +194,7 @@ def plotter(x, y, name, xlabel='x_val', ylabel='y_val', supply='HV', x_name='inp
     plt.figure(2, figsize=(8,6))
     plt.scatter(x, res, s=10.0)
     plt.plot(x,np.zeros(len(x)), color='red', linewidth=1.0, linestyle='-')
-    plt.title("Residuals_{0}".format(name))
+    plt.title("Residuals_{0}".format(title))
     plt.xlabel(xlabel, labelpad = 0.5, fontsize = 10)
     plt.ylabel(ylabel, labelpad = 0.5, fontsize = 10)
     plt.grid(visible=True, which='both', axis='both',linestyle='--', linewidth=0.5)
@@ -300,7 +203,7 @@ def plotter(x, y, name, xlabel='x_val', ylabel='y_val', supply='HV', x_name='inp
     
     plt.figure(3, figsize=(8,6))
     plt.hist(res)#, histtype='step')
-    plt.title("Hist_Residuals_{0}".format(name))
+    plt.title("Hist_Residuals_{0}".format(title))
     plt.xlabel(xlabel, labelpad = 0.5, fontsize = 10)
     plt.ylabel('Counts', labelpad = 0.5, fontsize = 10)
     plt.grid(visible=True, which='both', axis='both',linestyle='--', linewidth=0.5)
@@ -329,7 +232,7 @@ def plotter(x, y, name, xlabel='x_val', ylabel='y_val', supply='HV', x_name='inp
     plt.figure(1, figsize = (8,6))
     plt.scatter(x_int, y_int, s=10.0)
     plt.plot(x_int,y_line_int, color='red', linewidth=1.0)
-    plt.title("{0}".format(name))
+    plt.title("{0}".format(title))
     plt.xlabel(xlabel, labelpad = 0.5, fontsize = 10)
     plt.ylabel(ylabel, labelpad = 0.5, fontsize = 10)
     plt.grid(visible=True, which='both', axis='both', linestyle='--', linewidth=0.5)
@@ -342,7 +245,7 @@ def plotter(x, y, name, xlabel='x_val', ylabel='y_val', supply='HV', x_name='inp
     plt.figure(2, figsize=(8,6))
     plt.scatter(x_int, res_int, s=10.0)
     plt.plot(x_int,np.zeros(len(x_int)), color='red', linewidth=1.0, linestyle='-')
-    plt.title("Residuals_{0}".format(name))
+    plt.title("Residuals_{0}".format(title))
     plt.xlabel(xlabel, labelpad = 0.5, fontsize = 10)
     plt.ylabel(ylabel, labelpad = 0.5, fontsize = 10)
     plt.grid(visible=True, which='both', axis='both',linestyle='--', linewidth=0.5)
@@ -351,7 +254,7 @@ def plotter(x, y, name, xlabel='x_val', ylabel='y_val', supply='HV', x_name='inp
     
     plt.figure(3, figsize=(8,6))
     plt.hist(res_int)#, histtype='step')
-    plt.title("Hist_Residuals_{0}".format(name))
+    plt.title("Hist_Residuals_{0}".format(title))
     plt.xlabel(xlabel, labelpad = 0.5, fontsize = 10)
     plt.ylabel('Counts', labelpad = 0.5, fontsize = 10)
     plt.grid(visible=True, which='both', axis='both',linestyle='--', linewidth=0.5)
@@ -379,7 +282,7 @@ def plotter(x, y, name, xlabel='x_val', ylabel='y_val', supply='HV', x_name='inp
     plt.figure(1, figsize = (8,6))
     plt.scatter(x_excl, y_excl, s=10.0)
     plt.plot(x_excl,y_line_excl, color='red', linewidth=1.0)
-    plt.title("{0}".format(name))
+    plt.title("{0}".format(title))
     plt.xlabel(xlabel, labelpad = 0.5, fontsize = 10)
     plt.ylabel(ylabel, labelpad = 0.5, fontsize = 10)
     plt.grid(visible=True, which='both', axis='both', linestyle='--', linewidth=0.5)
@@ -392,7 +295,7 @@ def plotter(x, y, name, xlabel='x_val', ylabel='y_val', supply='HV', x_name='inp
     plt.figure(2, figsize=(8,6))
     plt.scatter(x_excl, res_excl, s=10.0)
     plt.plot(x_excl,np.zeros(len(x_excl)), color='red', linewidth=1.0, linestyle='-')
-    plt.title("Residuals_{0}".format(name))
+    plt.title("Residuals_{0}".format(title))
     plt.xlabel(xlabel, labelpad = 0.5, fontsize = 10)
     plt.ylabel(ylabel, labelpad = 0.5, fontsize = 10)
     plt.grid(visible=True, which='both', axis='both',linestyle='--', linewidth=0.5)
@@ -401,7 +304,7 @@ def plotter(x, y, name, xlabel='x_val', ylabel='y_val', supply='HV', x_name='inp
     
     plt.figure(3, figsize=(8,6))
     plt.hist(res_excl)#, histtype='step')
-    plt.title("Hist_Residuals_{0}".format(name))
+    plt.title("Hist_Residuals_{0}".format(title))
     plt.xlabel(xlabel, labelpad = 0.5, fontsize = 10)
     plt.ylabel('Counts', labelpad = 0.5, fontsize = 10)
     plt.grid(visible=True, which='both', axis='both',linestyle='--', linewidth=0.5)
@@ -419,7 +322,7 @@ def plotter(x, y, name, xlabel='x_val', ylabel='y_val', supply='HV', x_name='inp
     #     plt.plot(x_excl,y_line_excl, linestyle='dashdot', linewidth=1.0, label='Exlcude')
     #     plt.plot(x_int,y_line_int, linestyle='dashed', linewidth=1.0, label='Interior')
     #     plt.plot(x,2.4353*x, linestyle='solid', linewidth=1.0, label='Theoretical')
-    #     plt.title("{0}".format(name))
+    #     plt.title("{0}".format(title))
     #     plt.xlabel(xlabel, labelpad = 0.5, fontsize = 10)
     #     plt.ylabel(ylabel, labelpad = 0.5, fontsize = 10)
     #     plt.legend()
@@ -453,7 +356,7 @@ def plotter(x, y, name, xlabel='x_val', ylabel='y_val', supply='HV', x_name='inp
     #     # plt.ylim(8000,10000)#bottom=8000)
     #     plt.xlim(left*0.8, right)
     #     plt.ylim(top, bottom*0.8)
-    #     plt.title("{0}".format(name))
+    #     plt.title("{0}".format(title))
     #     plt.xlabel(xlabel, labelpad = 0.5, fontsize = 10)
     #     plt.ylabel(ylabel, labelpad = 0.5, fontsize = 10)
     #     plt.legend()
@@ -468,71 +371,6 @@ def plotter(x, y, name, xlabel='x_val', ylabel='y_val', supply='HV', x_name='inp
         # plt.clf()
     
     return
-
-# #Masked
-# def masked_plotter(x, y, name, xlabel='x_val', ylabel='y_val', supply='HV', x_name='input', y_name='data'):
-#     '''
-#     Simple plot maker. Will make a scatter plot and 
-#     fit the data with numpy.polyfit()
-#     '''
-#     # print(np.where((a > 2) & (a < 6) | (a == 7), -1, 100))
-#     print("Plotting...")
-#     x = np.array(x)
-#     y = np.array(y)
-#     index = np.where( (x > 10) & (x < 4010) )
-#     x = x[index]
-#     y = y[index]
-#     name = name+'_masked'
-    
-#     theta = np.polyfit(x, y, 1)
-#     y_line = theta[1] + theta[0] * np.array(x)
-#     res = y - y_line
-#     #vprint(res)
-    
-#     plt.figure(1, figsize = (8,6))
-#     plt.scatter(x, y, s=10.0)
-#     plt.plot(x,y_line, color='red', linewidth=1.0)
-#     plt.title("{0}".format(name))
-#     plt.xlabel(xlabel, labelpad = 0.5, fontsize = 10)
-#     plt.ylabel(ylabel, labelpad = 0.5, fontsize = 10)
-#     plt.grid(visible=True, which='both', axis='both', linestyle='--', linewidth=0.5)
-#     ax = plt.gca()
-#     plt.text(0.1,0.8, "y = {0:5.3f} x + {1:5.3f}".format(theta[0],theta[1]),
-#              transform = ax.transAxes, size=10, color="red")
-#     plt.savefig("test_plots/{0}_{1}_{2}_{3}.png".format(name,supply,x_name,y_name),dpi=300)
-#     plt.clf()
-    
-#     plt.figure(2, figsize=(8,6))
-#     plt.scatter(x, res, s=10.0)
-#     plt.plot(x,np.zeros(len(x)), color='red', linewidth=1.0, linestyle='-')
-#     plt.title("Residuals_{0}".format(name))
-#     plt.xlabel(xlabel, labelpad = 0.5, fontsize = 10)
-#     plt.ylabel(ylabel, labelpad = 0.5, fontsize = 10)
-#     plt.grid(visible=True, which='both', axis='both',linestyle='--', linewidth=0.5)
-#     plt.savefig("test_plots/{0}_{1}_{2}_{3}_Res.png".format(name,supply,x_name,y_name),dpi=300)
-#     plt.clf()
-    
-#                             # plt.hist(data_dict[source]['{0}_1'.format(hist_var)], 
-#                             #      weights=data_dict[source]['weight'], bins=bindistance, density=False, 
-#                             #      histtype='step', color=color, ls='--', label=str(source)+' refracted')
-
-#     plt.figure(3, figsize=(8,6))
-#     plt.hist(res)#, histtype='step')
-#     plt.title("Hist_Residuals_{0}".format(name))
-#     plt.xlabel(xlabel, labelpad = 0.5, fontsize = 10)
-#     plt.ylabel('Counts', labelpad = 0.5, fontsize = 10)
-#     plt.grid(visible=True, which='both', axis='both',linestyle='--', linewidth=0.5)
-#     plt.savefig("test_plots/{0}_{1}_{2}_{3}_Hist.png".format(name,supply,x_name,y_name),dpi=300)
-#     plt.clf()
-    
-#     print("Done!")
-        
-#     # plt.figure(4, figsize=(8,6))
-#     # plt.hist(np.std(res))
-#     # plt.savefig("test_plots/{0}_{1}_{2}_{3}_Hist_Std.png".format(name,supply,xlabel,ylabel),dpi=300)
-#     # plt.clf()
-    
-#     return
 
 #########
 ##Plots##
