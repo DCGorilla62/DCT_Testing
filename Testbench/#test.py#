@@ -75,6 +75,7 @@ parser = argparse.ArgumentParser(
 parser.add_argument("filename", help = "Path to the file you want to use.")
 # parser.add_argument("supply", help = "1 or 2 Supply used. Cathode: Supply 1 or Potential: Supply2.")
 
+# parser.add_argument("source_1", help = "Path to the AraSim file you want to use.", nargs='+')
 # for above parser, could give a list of files
 # user needs to know which file  corresponds to which data set
 
