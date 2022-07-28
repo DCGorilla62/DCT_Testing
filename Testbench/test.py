@@ -241,22 +241,22 @@ def plotter(x, y, name, title='title', xlabel='x_val', ylabel='y_val', supply='H
     print("Plotting...")
     x = np.array(x)
     y = np.array(y)
-    # print(x,y)
     theta = np.polyfit(x, y, 1)
     y_line = theta[1] + theta[0] * x
     res = y - y_line
-    #vprint(res)
-    
+    x_lin = np.linspace(max(x),min(x),1000)
+    y_all = theta[1] + theta[0] * x_lin
+
     plt.figure(1, figsize = (8,6))
-    plt.scatter(x, y, s=10.0)
-    plt.plot(x,y_line, color='red', linewidth=1.0)
+    plt.scatter(x, y, s=10.0, color='blue', marker='D')
+    plt.plot(x_lin,y_all, color='blue', linewidth=1.0)
     plt.title("{0}".format(title))
     plt.xlabel(xlabel, labelpad = 0.5, fontsize = 10)
     plt.ylabel(ylabel, labelpad = 0.5, fontsize = 10)
     plt.grid(visible=True, which='both', axis='both', linestyle='--', linewidth=0.5)
     ax = plt.gca()
     plt.text(0.1,0.8, "y = {0:5.3f} x + {1:5.3f}".format(theta[0],theta[1]),
-             transform = ax.transAxes, size=10, color="red")
+             transform = ax.transAxes, size=14, color="black")
     plt.savefig("test_plots/{0}_{1}_{2}_{3}.png".format(name,supply,x_name,y_name),dpi=300)
     plt.clf()
     
@@ -536,257 +536,257 @@ print('Time: \033[1;31m{0}\033[0;0m'.format(stop - start))
 # ############
 # ####Plots 0702
 # #######
-# #Cathode
+#Cathode
 
-# print('Plots from Idiana University test 07022022')
+print('Plots from Idiana University test 07022022')
+print('\n')
+
+# print('High Voltage Output Plots')
+# plotter(data_dict['HV']['DAC'], data_dict['HV']['Voltage'], 
+#         name, xlabel='DAC Code', ylabel='High Voltage Output (|V|)', 
+#         x_name='DAC', y_name='HighVoltage', supply='HV')
 # print('\n')
 
-# # print('High Voltage Output Plots')
-# # plotter(data_dict['HV']['DAC'], data_dict['HV']['Voltage'], 
-# #         name, xlabel='DAC Code', ylabel='High Voltage Output (|V|)', 
-# #         x_name='DAC', y_name='HighVoltage', supply='HV')
-# # print('\n')
+print('Cathode large lod')
+#Large
+name='Cathode_Large_Load_07022022'
 
-# print('Cathode large lod')
-# #Large
-# name='Cathode_Large_Load_07022022'
-
-# plotter(data_0702_LC['HV']['DAC'], data_0702_LC['HV']['Voltage'], 
-#         name=name, title=name, 
-#         xlabel='DAC Code', ylabel='DMM Volts', 
-#         x_name='DAC', y_name='DMM', supply='HV')
+plotter(data_0702_LC['HV']['DAC'], data_0702_LC['HV']['Voltage'], 
+        name=name, title=name, 
+        xlabel='DAC Code', ylabel='DMM Volts', 
+        x_name='DAC', y_name='DMM', supply='HV')
 
 
-# plotter(data_0702_LC['C']['DAC'], data_0702_LC['C']['ADC_Voltage'], 
-#         name='Cathode_Large_Load_07022022', title=name, 
-#         xlabel='DAC Code', ylabel='Voltage (ADC Code)', 
-#         x_name='DAC', y_name='ADC_Voltage', supply='Cathode')
-# plotter(data_0702_LC['C']['DAC'], data_0702_LC['C']['ADC_Current'], 
-#         name='Cathode_Large_Load_07022022', title=name, 
-#         xlabel='DAC Code', ylabel='Current (ADC Code)', 
-#         x_name='DAC', y_name='ADC_Curent', supply='Cathode')
-# plotter(data_0702_LC['C']['ADC_Voltage'], data_0702_LC['C']['ADC_Current'], 
-#         name='Cathode_Large_Load_07022022', title=name, 
-#         xlabel='Voltage (ADC Code)', ylabel='Current (ADC Code)', 
-#         x_name='ADC_Voltage', y_name='ADC_Current', supply='Same_Cathode')
+plotter(data_0702_LC['C']['DAC'], data_0702_LC['C']['ADC_Voltage'], 
+        name='Cathode_Large_Load_07022022', title=name, 
+        xlabel='DAC Code', ylabel='Voltage (ADC Code)', 
+        x_name='DAC', y_name='ADC_Voltage', supply='Cathode')
+plotter(data_0702_LC['C']['DAC'], data_0702_LC['C']['ADC_Current'], 
+        name='Cathode_Large_Load_07022022', title=name, 
+        xlabel='DAC Code', ylabel='Current (ADC Code)', 
+        x_name='DAC', y_name='ADC_Curent', supply='Cathode')
+plotter(data_0702_LC['C']['ADC_Voltage'], data_0702_LC['C']['ADC_Current'], 
+        name='Cathode_Large_Load_07022022', title=name, 
+        xlabel='Voltage (ADC Code)', ylabel='Current (ADC Code)', 
+        x_name='ADC_Voltage', y_name='ADC_Current', supply='Same_Cathode')
 
-# #different supplies
-# plotter(data_0702_LC['C']['DAC'], data_0702_LC['P']['ADC_Voltage'], 
-#         name='Cathode_Large_Load_07022022', title=name, 
-#         xlabel='DAC Code', ylabel='Voltage (ADC Code)', 
-#         x_name='DAC', y_name='ADC_Current', supply='Both_Cathode')
-# plotter(data_0702_LC['C']['DAC'], data_0702_LC['P']['ADC_Current'], 
-#         name='Cathode_Large_Load_07022022',  title=name, 
-#         xlabel='DAC Code', ylabel='Current (ADC Code)', 
-#         x_name='DAC', y_name='ADC_Current', supply='Both_Cathode')
+#different supplies
+plotter(data_0702_LC['C']['DAC'], data_0702_LC['P']['ADC_Voltage'], 
+        name='Cathode_Large_Load_07022022', title=name, 
+        xlabel='DAC Code', ylabel='Voltage (ADC Code)', 
+        x_name='DAC', y_name='ADC_Current', supply='Both_Cathode')
+plotter(data_0702_LC['C']['DAC'], data_0702_LC['P']['ADC_Current'], 
+        name='Cathode_Large_Load_07022022',  title=name, 
+        xlabel='DAC Code', ylabel='Current (ADC Code)', 
+        x_name='DAC', y_name='ADC_Current', supply='Both_Cathode')
 
-# ##
-# #Small
-# ##
-# print('Cathode small load')
+##
+#Small
+##
+print('Cathode small load')
 
-# name='Cathode_Small_Load_07022022'
+name='Cathode_Small_Load_07022022'
 
-# plotter(data_0702_SC['HV']['DAC'], data_0702_SC['HV']['Voltage'], 
-#         name=name, title=name, 
-#         xlabel='DAC Code', ylabel='DMM Volts', 
-#         x_name='DAC', y_name='DMM', supply='HV')
-
-
-# plotter(data_0702_SC['C']['DAC'], data_0702_SC['C']['ADC_Voltage'], 
-#         name='Cathode_Small_Load_07022022', title=name, 
-#         xlabel='DAC Code', ylabel='Voltage (ADC Code)', 
-#         x_name='DAC', y_name='ADC_Voltage', supply='Cathode')
-# plotter(data_0702_SC['C']['DAC'], data_0702_SC['C']['ADC_Current'], 
-#         name='Cathode_Small_Load_07022022', title=name, 
-#         xlabel='DAC Code', ylabel='Current (ADC Code)', 
-#         x_name='DAC', y_name='ADC_Curent', supply='Cathode')
-# plotter(data_0702_SC['C']['ADC_Voltage'], data_0702_SC['C']['ADC_Current'], 
-#         name='Cathode_Small_Load_07022022', title=name, 
-#         xlabel='Voltage (ADC Code)', ylabel='Current (ADC Code)', 
-#         x_name='ADC_Voltage', y_name='ADC_Current', supply='Same_Cathode')
-
-# #different supplies
-# plotter(data_0702_SC['C']['DAC'], data_0702_SC['P']['ADC_Voltage'], 
-#         name='Cathode_Small_Load_07022022', title=name, 
-#         xlabel='DAC Code', ylabel='Voltage (ADC Code)', 
-#         x_name='DAC', y_name='ADC_Current', supply='Both_Cathode')
-# plotter(data_0702_SC['C']['DAC'], data_0702_SC['P']['ADC_Current'], 
-#         name='Cathode_Small_Load_07022022',  title=name, 
-#         xlabel='DAC Code', ylabel='Current (ADC Code)', 
-#         x_name='DAC', y_name='ADC_Current', supply='Both_Cathode')
+plotter(data_0702_SC['HV']['DAC'], data_0702_SC['HV']['Voltage'], 
+        name=name, title=name, 
+        xlabel='DAC Code', ylabel='DMM Volts', 
+        x_name='DAC', y_name='DMM', supply='HV')
 
 
-# ####
-# #Potential
+plotter(data_0702_SC['C']['DAC'], data_0702_SC['C']['ADC_Voltage'], 
+        name='Cathode_Small_Load_07022022', title=name, 
+        xlabel='DAC Code', ylabel='Voltage (ADC Code)', 
+        x_name='DAC', y_name='ADC_Voltage', supply='Cathode')
+plotter(data_0702_SC['C']['DAC'], data_0702_SC['C']['ADC_Current'], 
+        name='Cathode_Small_Load_07022022', title=name, 
+        xlabel='DAC Code', ylabel='Current (ADC Code)', 
+        x_name='DAC', y_name='ADC_Curent', supply='Cathode')
+plotter(data_0702_SC['C']['ADC_Voltage'], data_0702_SC['C']['ADC_Current'], 
+        name='Cathode_Small_Load_07022022', title=name, 
+        xlabel='Voltage (ADC Code)', ylabel='Current (ADC Code)', 
+        x_name='ADC_Voltage', y_name='ADC_Current', supply='Same_Cathode')
 
-# print('Plots from Idiana University test 07022022')
+#different supplies
+plotter(data_0702_SC['C']['DAC'], data_0702_SC['P']['ADC_Voltage'], 
+        name='Cathode_Small_Load_07022022', title=name, 
+        xlabel='DAC Code', ylabel='Voltage (ADC Code)', 
+        x_name='DAC', y_name='ADC_Current', supply='Both_Cathode')
+plotter(data_0702_SC['C']['DAC'], data_0702_SC['P']['ADC_Current'], 
+        name='Cathode_Small_Load_07022022',  title=name, 
+        xlabel='DAC Code', ylabel='Current (ADC Code)', 
+        x_name='DAC', y_name='ADC_Current', supply='Both_Cathode')
 
-# print('Potential large lod')
-# #Large
-# name='Potential_Large_Load_07022022'
+
+####
+#Potential
+
+print('Plots from Idiana University test 07022022')
+
+print('Potential large lod')
+#Large
+name='Potential_Large_Load_07022022'
 
 
-# plotter(data_0702_LP['HV']['DAC'], data_0702_LP['HV']['Voltage'], 
-#         name=name, title=name, 
-#         xlabel='DAC Code', ylabel='DMM Volts', 
-#         x_name='DAC', y_name='DMM', supply='HV')
+plotter(data_0702_LP['HV']['DAC'], data_0702_LP['HV']['Voltage'], 
+        name=name, title=name, 
+        xlabel='DAC Code', ylabel='DMM Volts', 
+        x_name='DAC', y_name='DMM', supply='HV')
 
 
 
-# plotter(data_0702_LP['P']['DAC'], data_0702_LP['P']['ADC_Voltage'], 
-#         name='Potential_Large_Load_07022022', title=name, 
-#         xlabel='DAC Code', ylabel='Voltage (ADC Code)', 
-#         x_name='DAC', y_name='ADC_Voltage', supply='Potential')
-# plotter(data_0702_LP['P']['DAC'], data_0702_LP['P']['ADC_Current'], 
-#         name='Potential_Large_Load_07022022', title=name, 
-#         xlabel='DAC Code', ylabel='Current (ADC Code)', 
-#         x_name='DAC', y_name='ADC_Curent', supply='Potential')
-# plotter(data_0702_LP['P']['ADC_Voltage'], data_0702_LP['P']['ADC_Current'], 
-#         name='Potential_Large_Load_07022022', title=name, 
-#         xlabel='Voltage (ADC Code)', ylabel='Current (ADC Code)', 
-#         x_name='ADC_Voltage', y_name='ADC_Current', supply='Same_Potential')
+plotter(data_0702_LP['P']['DAC'], data_0702_LP['P']['ADC_Voltage'], 
+        name='Potential_Large_Load_07022022', title=name, 
+        xlabel='DAC Code', ylabel='Voltage (ADC Code)', 
+        x_name='DAC', y_name='ADC_Voltage', supply='Potential')
+plotter(data_0702_LP['P']['DAC'], data_0702_LP['P']['ADC_Current'], 
+        name='Potential_Large_Load_07022022', title=name, 
+        xlabel='DAC Code', ylabel='Current (ADC Code)', 
+        x_name='DAC', y_name='ADC_Curent', supply='Potential')
+plotter(data_0702_LP['P']['ADC_Voltage'], data_0702_LP['P']['ADC_Current'], 
+        name='Potential_Large_Load_07022022', title=name, 
+        xlabel='Voltage (ADC Code)', ylabel='Current (ADC Code)', 
+        x_name='ADC_Voltage', y_name='ADC_Current', supply='Same_Potential')
 
-# #different supplies
-# plotter(data_0702_LP['P']['DAC'], data_0702_LP['P']['ADC_Voltage'], 
-#         name='Potential_Large_Load_07022022', title=name, 
-#         xlabel='DAC Code', ylabel='Voltage (ADC Code)', 
-#         x_name='DAC', y_name='ADC_Current', supply='Both_Potential')
-# plotter(data_0702_LP['P']['DAC'], data_0702_LP['P']['ADC_Current'], 
-#         name='Potential_Large_Load_07022022',  title=name, 
-#         xlabel='DAC Code', ylabel='Current (ADC Code)', 
-#         x_name='DAC', y_name='ADC_Current', supply='Both_Potential')
+#different supplies
+plotter(data_0702_LP['P']['DAC'], data_0702_LP['P']['ADC_Voltage'], 
+        name='Potential_Large_Load_07022022', title=name, 
+        xlabel='DAC Code', ylabel='Voltage (ADC Code)', 
+        x_name='DAC', y_name='ADC_Current', supply='Both_Potential')
+plotter(data_0702_LP['P']['DAC'], data_0702_LP['P']['ADC_Current'], 
+        name='Potential_Large_Load_07022022',  title=name, 
+        xlabel='DAC Code', ylabel='Current (ADC Code)', 
+        x_name='DAC', y_name='ADC_Current', supply='Both_Potential')
 
-# ##
-# #No
-# ##
-# print('Potential small load')
+##
+#No
+##
+print('Potential small load')
 
-# name='Potential_No_Load_07022022'
-
-
-# plotter(data_0702_NP['HV']['DAC'], data_0702_NP['HV']['Voltage'], 
-#         name=name, title=name, 
-#         xlabel='DAC Code', ylabel='DMM Volts', 
-#         x_name='DAC', y_name='DMM', supply='HV')
+name='Potential_No_Load_07022022'
 
 
-
-# plotter(data_0702_NP['P']['DAC'], data_0702_NP['P']['ADC_Voltage'], 
-#         name='Potential_No_Load_07022022', title=name, 
-#         xlabel='DAC Code', ylabel='Voltage (ADC Code)', 
-#         x_name='DAC', y_name='ADC_Voltage', supply='Potential')
-# plotter(data_0702_NP['P']['DAC'], data_0702_NP['P']['ADC_Current'], 
-#         name='Potential_No_Load_07022022', title=name, 
-#         xlabel='DAC Code', ylabel='Current (ADC Code)', 
-#         x_name='DAC', y_name='ADC_Curent', supply='Potential')
-# plotter(data_0702_NP['P']['ADC_Voltage'], data_0702_NP['P']['ADC_Current'], 
-#         name='Potential_No_Load_07022022', title=name, 
-#         xlabel='Voltage (ADC Code)', ylabel='Current (ADC Code)', 
-#         x_name='ADC_Voltage', y_name='ADC_Current', supply='Same_Potential')
-
-# #different supplies
-# plotter(data_0702_NP['P']['DAC'], data_0702_NP['C']['ADC_Voltage'], 
-#         name='Potential_No_Load_07022022', title=name, 
-#         xlabel='DAC Code', ylabel='Voltage (ADC Code)', 
-#         x_name='DAC', y_name='ADC_Current', supply='Both_Potential')
-# plotter(data_0702_NP['P']['DAC'], data_0702_NP['C']['ADC_Current'], 
-#         name='Potential_No_Load_07022022',  title=name, 
-#         xlabel='DAC Code', ylabel='Current (ADC Code)', 
-#         x_name='DAC', y_name='ADC_Current', supply='Both_Potential')
-
-
-# ##########################3
-# ####Plots 0722
-# #######
-
-# print('Plots from Idiana University test 07222022')
-
-# #Cathode
-# print('Cathode No lod')
-# #None
-# name='Cathode_No_Load_07222022'
-
-# plotter(data_0722_C['C']['DAC_Volts'], data_0722_C['C']['ADC_Voltage'], 
-#         name='Cathode_No_Load_07222022', title=name, 
-#         xlabel='DAC Volts', ylabel='Voltage (ADC Code)', 
-#         x_name='DAC_Volts', y_name='ADC_Voltage', supply='Cathode')
-# plotter(data_0722_C['C']['DAC_Volts'], data_0722_C['C']['ADC_Current'], 
-#         name='Cathode_No_Load_07222022', title=name, 
-#         xlabel='DAC Volts', ylabel='Current (ADC Code)', 
-#         x_name='DAC_Volts', y_name='ADC_Curent', supply='Cathode')
-# plotter(data_0722_C['C']['ADC_Voltage'], data_0722_C['C']['ADC_Current'], 
-#         name='Cathode_No_Load_07222022', title=name, 
-#         xlabel='Voltage (ADC Code)', ylabel='Current (ADC Code)', 
-#         x_name='ADC_Voltage', y_name='ADC_Current', supply='Same_Cathode')
-
-# #different supplies
-# plotter(data_0722_C['C']['DAC_Volts'], data_0722_C['P']['ADC_Voltage'], 
-#         name='Cathode_No_Load_07222022', title=name, 
-#         xlabel='DAC Volts', ylabel='Voltage (ADC Code)', 
-#         x_name='DAC_Volts', y_name='ADC_Current', supply='Both_Cathode')
-# plotter(data_0722_C['C']['DAC_Volts'], data_0722_C['P']['ADC_Current'], 
-#         name='Cathode_No_Load_07222022',  title=name, 
-#         xlabel='DAC Volts', ylabel='Current (ADC Code)', 
-#         x_name='DAC_Volts', y_name='ADC_Current', supply='Both_Cathode')
-
-# ###
-
-# #Potential
-# print('Potential No lod')
-# #None
-# name='Potential_No_Load_07222022'
-
-# plotter(data_0722_P['P']['DAC_Volts'], data_0722_P['P']['ADC_Voltage'], 
-#         name='Potential_No_Load_07222022', title=name, 
-#         xlabel='DAC Volts', ylabel='Voltage (ADC Code)', 
-#         x_name='DAC_Volts', y_name='ADC_Voltage', supply='Potential')
-# plotter(data_0722_P['P']['DAC_Volts'], data_0722_P['P']['ADC_Current'], 
-#         name='Potential_No_Load_07222022', title=name, 
-#         xlabel='DAC Volts', ylabel='Current (ADC Code)', 
-#         x_name='DAC_Volts', y_name='ADC_Curent', supply='Potential')
-# plotter(data_0722_P['P']['ADC_Voltage'], data_0722_P['P']['ADC_Current'], 
-#         name='Potential_No_Load_07222022', title=name, 
-#         xlabel='Voltage (ADC Code)', ylabel='Current (ADC Code)', 
-#         x_name='ADC_Voltage', y_name='ADC_Current', supply='Same_Potential')
-
-# #different supplies
-# plotter(data_0722_P['P']['DAC_Volts'], data_0722_P['C']['ADC_Voltage'], 
-#         name='Potential_No_Load_07222022', title=name, 
-#         xlabel='DAC Volts', ylabel='Voltage (ADC Code)', 
-#         x_name='DAC_Volts', y_name='ADC_Current', supply='Both_Potential')
-# plotter(data_0722_P['P']['DAC_Volts'], data_0722_P['C']['ADC_Current'], 
-#         name='Potential_No_Load_07222022',  title=name, 
-#         xlabel='DAC Volts', ylabel='Current (ADC Code)', 
-#         x_name='DAC_Volts', y_name='ADC_Current', supply='Both_Potential')
-
-
-# ############
-# print('Plots from Chicago University payload test')
-
-# ##No Load
-# print('Cathode')
-
-# #data_payload = creator_payload(directory+'Chicago_07202022/payload_data.txt')
-
-# name = 'Cathode Supply Payload'
-# payload_plotter(data_payload['VpgmCat'][0:5], data_payload['DMMCat'][0:5], 
-#         name='Cathode_No_Load_Payload',  title=name, 
-#         xlabel='Control Volts', ylabel='DMM Volts', 
-#         x_name='Vpgm_Cathode', y_name='DMM_Cathode', supply='Cathode')
+plotter(data_0702_NP['HV']['DAC'], data_0702_NP['HV']['Voltage'], 
+        name=name, title=name, 
+        xlabel='DAC Code', ylabel='DMM Volts', 
+        x_name='DAC', y_name='DMM', supply='HV')
 
 
 
-# ##No Load
-# print('Potential')
+plotter(data_0702_NP['P']['DAC'], data_0702_NP['P']['ADC_Voltage'], 
+        name='Potential_No_Load_07022022', title=name, 
+        xlabel='DAC Code', ylabel='Voltage (ADC Code)', 
+        x_name='DAC', y_name='ADC_Voltage', supply='Potential')
+plotter(data_0702_NP['P']['DAC'], data_0702_NP['P']['ADC_Current'], 
+        name='Potential_No_Load_07022022', title=name, 
+        xlabel='DAC Code', ylabel='Current (ADC Code)', 
+        x_name='DAC', y_name='ADC_Curent', supply='Potential')
+plotter(data_0702_NP['P']['ADC_Voltage'], data_0702_NP['P']['ADC_Current'], 
+        name='Potential_No_Load_07022022', title=name, 
+        xlabel='Voltage (ADC Code)', ylabel='Current (ADC Code)', 
+        x_name='ADC_Voltage', y_name='ADC_Current', supply='Same_Potential')
 
-# #data_payload = creator_payload(directory+'Chicago_07202022/payload_data.txt')
+#different supplies
+plotter(data_0702_NP['P']['DAC'], data_0702_NP['C']['ADC_Voltage'], 
+        name='Potential_No_Load_07022022', title=name, 
+        xlabel='DAC Code', ylabel='Voltage (ADC Code)', 
+        x_name='DAC', y_name='ADC_Current', supply='Both_Potential')
+plotter(data_0702_NP['P']['DAC'], data_0702_NP['C']['ADC_Current'], 
+        name='Potential_No_Load_07022022',  title=name, 
+        xlabel='DAC Code', ylabel='Current (ADC Code)', 
+        x_name='DAC', y_name='ADC_Current', supply='Both_Potential')
 
-# name = 'Potential Supply Payload'
-# payload_plotter(data_payload['VpgmPot'][0:5], data_payload['DMMPot'][0:5], 
-#         name='Potential_No_Load_Payload',  title=name, 
-#         xlabel='Control Volts', ylabel='DMM Volts', 
-#         x_name='Vpgm_Potential', y_name='DMM_Potential', supply='Potential')
+
+##########################3
+####Plots 0722
+#######
+
+print('Plots from Idiana University test 07222022')
+
+#Cathode
+print('Cathode No lod')
+#None
+name='Cathode_No_Load_07222022'
+
+plotter(data_0722_C['C']['DAC_Volts'], data_0722_C['C']['ADC_Voltage'], 
+        name='Cathode_No_Load_07222022', title=name, 
+        xlabel='DAC Volts', ylabel='Voltage (ADC Code)', 
+        x_name='DAC_Volts', y_name='ADC_Voltage', supply='Cathode')
+plotter(data_0722_C['C']['DAC_Volts'], data_0722_C['C']['ADC_Current'], 
+        name='Cathode_No_Load_07222022', title=name, 
+        xlabel='DAC Volts', ylabel='Current (ADC Code)', 
+        x_name='DAC_Volts', y_name='ADC_Curent', supply='Cathode')
+plotter(data_0722_C['C']['ADC_Voltage'], data_0722_C['C']['ADC_Current'], 
+        name='Cathode_No_Load_07222022', title=name, 
+        xlabel='Voltage (ADC Code)', ylabel='Current (ADC Code)', 
+        x_name='ADC_Voltage', y_name='ADC_Current', supply='Same_Cathode')
+
+#different supplies
+plotter(data_0722_C['C']['DAC_Volts'], data_0722_C['P']['ADC_Voltage'], 
+        name='Cathode_No_Load_07222022', title=name, 
+        xlabel='DAC Volts', ylabel='Voltage (ADC Code)', 
+        x_name='DAC_Volts', y_name='ADC_Current', supply='Both_Cathode')
+plotter(data_0722_C['C']['DAC_Volts'], data_0722_C['P']['ADC_Current'], 
+        name='Cathode_No_Load_07222022',  title=name, 
+        xlabel='DAC Volts', ylabel='Current (ADC Code)', 
+        x_name='DAC_Volts', y_name='ADC_Current', supply='Both_Cathode')
+
+###
+
+#Potential
+print('Potential No lod')
+#None
+name='Potential_No_Load_07222022'
+
+plotter(data_0722_P['P']['DAC_Volts'], data_0722_P['P']['ADC_Voltage'], 
+        name='Potential_No_Load_07222022', title=name, 
+        xlabel='DAC Volts', ylabel='Voltage (ADC Code)', 
+        x_name='DAC_Volts', y_name='ADC_Voltage', supply='Potential')
+plotter(data_0722_P['P']['DAC_Volts'], data_0722_P['P']['ADC_Current'], 
+        name='Potential_No_Load_07222022', title=name, 
+        xlabel='DAC Volts', ylabel='Current (ADC Code)', 
+        x_name='DAC_Volts', y_name='ADC_Curent', supply='Potential')
+plotter(data_0722_P['P']['ADC_Voltage'], data_0722_P['P']['ADC_Current'], 
+        name='Potential_No_Load_07222022', title=name, 
+        xlabel='Voltage (ADC Code)', ylabel='Current (ADC Code)', 
+        x_name='ADC_Voltage', y_name='ADC_Current', supply='Same_Potential')
+
+#different supplies
+plotter(data_0722_P['P']['DAC_Volts'], data_0722_P['C']['ADC_Voltage'], 
+        name='Potential_No_Load_07222022', title=name, 
+        xlabel='DAC Volts', ylabel='Voltage (ADC Code)', 
+        x_name='DAC_Volts', y_name='ADC_Current', supply='Both_Potential')
+plotter(data_0722_P['P']['DAC_Volts'], data_0722_P['C']['ADC_Current'], 
+        name='Potential_No_Load_07222022',  title=name, 
+        xlabel='DAC Volts', ylabel='Current (ADC Code)', 
+        x_name='DAC_Volts', y_name='ADC_Current', supply='Both_Potential')
+
+
+############
+print('Plots from Chicago University payload test')
+
+##No Load
+print('Cathode')
+
+#data_payload = creator_payload(directory+'Chicago_07202022/payload_data.txt')
+
+name = 'Cathode Supply Payload'
+payload_plotter(data_payload['VpgmCat'][0:5], data_payload['DMMCat'][0:5], 
+        name='Cathode_No_Load_Payload',  title=name, 
+        xlabel='Control Volts', ylabel='DMM Volts', 
+        x_name='Vpgm_Cathode', y_name='DMM_Cathode', supply='Cathode')
+
+
+
+##No Load
+print('Potential')
+
+#data_payload = creator_payload(directory+'Chicago_07202022/payload_data.txt')
+
+name = 'Potential Supply Payload'
+payload_plotter(data_payload['VpgmPot'][0:5], data_payload['DMMPot'][0:5], 
+        name='Potential_No_Load_Payload',  title=name, 
+        xlabel='Control Volts', ylabel='DMM Volts', 
+        x_name='Vpgm_Potential', y_name='DMM_Potential', supply='Potential')
 
 
 ################################################################
@@ -832,7 +832,7 @@ def combo_plotter(x, y, x1, y1, data_name, data_name1, title='title', xlabel='x_
     plt.clf()
     x = np.array(x)
     y = np.array(y)
-    # print(x,y)
+
     theta = np.polyfit(x, y, 1)
     y_line = theta[1] + theta[0] * x
     res = y - y_line
