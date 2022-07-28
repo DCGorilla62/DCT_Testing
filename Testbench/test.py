@@ -862,11 +862,11 @@ def combo_plotter(x, y, x1, y1, data_name, data_name1, title='title', xlabel='x_
     
     plt.figure(1, figsize = (8,6))
     plt.plot(x_lin,y_all, color='red', linewidth=1.0)
-    plt.scatter(x, y, s=10.0, color='blue', marker="D", label=data_name)
+    plt.scatter(x, y, s=10.0, color='blue', marker="D", label=data_name.replace("_", " "))
     
 #    print(y_line1)
     plt.plot(x_lin1,y_all1, color='purple', ls='--',linewidth=1.0)
-    plt.scatter(x1, y1, s=150.0, color='black', marker="+", label=data_name1)
+    plt.scatter(x1, y1, s=150.0, color='black', marker="+", label=data_name1.replace("_", " "))
 
     
     plt.title("{0}".format(title))
@@ -893,6 +893,56 @@ def combo_plotter(x, y, x1, y1, data_name, data_name1, title='title', xlabel='x_
     return
 
 
+
+def baby_plotter(x, y, data_name, title='title', xlabel='x_val', ylabel='y_val',
+                 fit_color='red', color='blue', marker='D',
+                 supply='supply', x_name='input', y_name='output', clear = False):
+    '''
+    '''
+    #
+    print("Plotting...")
+    
+    x = np.array(x)
+    y = np.array(y)
+    
+    theta = np.polyfit(x, y, 1)
+    y_line = theta[1] + theta[0] * x
+    res = y - y_line
+
+    x_lin = np.linspace(max(x),min(x),1000)
+    y_all = theta[1] + theta[0] * x_lin
+    
+    plt.figure(1, figsize = (8,6))
+    plt.plot(x_lin,y_all, color=fit_color, linewidth=1.0)
+    plt.scatter(x, y, s=10.0, color=color, marker=marker, label=data_name.replace("_", " "))
+    
+    plt.title("{0}".format(title))
+    plt.xlabel(xlabel, labelpad = 0.5, fontsize = 10)
+    plt.ylabel(ylabel, labelpad = 0.5, fontsize = 10)
+    plt.grid(visible=True, which='both', axis='both', linestyle='--', linewidth=0.5)
+    # ax = plt.gca()
+
+    # plt.text(0.1,0.8, "y = {0:5.3f} x + {1:5.3f}".format(theta[0],theta[1]),
+    #          transform = ax.transAxes, size=10, color="red")
+    
+    # custom_legend = [Line2D([0], [0], color='blue'),
+    #                  Line2D([0], [0], color='black')]
+
+    # legend = plt.legend(custom_legend, [data_name, data_name1], loc='best')
+    
+    plt.legend()
+
+    
+    if clear == True:
+        plt.savefig("test_plots/{0}_{1}_{2}_{3}_{4}.png".format(data_name,supply,x_name,y_name),dpi=300)
+        plt.clf()
+    else:
+        print('Done!')
+    
+    return
+
+
+
 '''
 plotter(data_0702_LP['HV']['DAC'], data_0702_LP['HV']['Voltage'], 
         name=name, title=name, 
@@ -903,17 +953,32 @@ def combo_plotter(x, y, x1, y2, data_name, data_name1, title='title', xlabel='x_
 
 '''
 
-Cat_control = [full_conversion(x, highvolt_FS, cathode_scale_factor,cathode_volt_FS) for x in data_payload['VpgmCat'][0:5]]
+Cat_Control = [full_conversion(x, highvolt_FS, cathode_scale_factor,cathode_volt_FS) for x in data_payload['VpgmCat'][0:5]]
 
-Pot_control = [full_conversion(x, highvolt_FS, cathode_scale_factor,cathode_volt_FS) for x in data_payload['VpgmPot'][0:5]]
+Pot_Control = [full_conversion(x, highvolt_FS, cathode_scale_factor,cathode_volt_FS) for x in data_payload['VpgmPot'][0:5]]
 
+Cat_ADC = [x/conv_factor_HV for x in data_payload['VmonCat'][0:5]]
+Pot_ADC = [x/conv_factor_HV for x in data_payload['VmonPot'][0:5]]
 
+#For IU 0702 and Payload test
 
 name = 'Cathode Supply'
-combo_plotter(data_0702_LC['HV']['DAC'], data_0702_LC['HV']['Voltage'], Cat_control, data_payload['DMMCat'][0:5],
-              data_name='IU_0702_Large_Load', data_name1='UC_Payload_No_Load', title=name, 
+#DMM
+combo_plotter(data_0702_LC['HV']['DAC'], data_0702_LC['HV']['Voltage'], Cat_Control, data_payload['DMMCat'][0:5],
+              data_name='IU_0702_36_MOhm_Load', data_name1='UC_Payload_No_Load', title=name, 
               xlabel='DAC Code', ylabel='DMM Volts', 
               x_name='DAC', y_name='DMM', supply='Cathode')
+ 
+combo_plotter(data_0702_LC['C']['DAC'], data_0702_LC['C']['ADC_Voltage'], Cat_Control, Cat_ADC,
+              data_name='IU_0702_36_MOhm_Load', data_name1='UC_Payload_No_Load', title=name, 
+              xlabel='DAC Code', ylabel='ADC Voltage', 
+              x_name='DAC', y_name='ADC_Voltage', supply='Cathode')
+ 
+#ADC
+# combo_plotter(data_0702_LC['HV']['DAC'], data_0702_LC['HV']['Voltage'], Cat_control, data_payload['DMMCat'][0:5],
+#               data_name='IU_0702_Large_Load', data_name1='UC_Payload_No_Load', title=name, 
+#               xlabel='DAC Code', ylabel='DMM Volts', 
+#               x_name='DAC', y_name='ADC_Voltage', supply='Cathode')
 
 
 # name = 'Potential Supply'
@@ -922,6 +987,16 @@ combo_plotter(data_0702_LC['HV']['DAC'], data_0702_LC['HV']['Voltage'], Cat_cont
 #               xlabel='DAC Code', ylabel='DMM Volts', 
 #               x_name='DAC', y_name='DMM', supply='Potential')
 
+
+# def baby_plotter(x, y, data_name, title='title', xlabel='x_val', ylabel='y_val',
+#                  fit_color='red', color='blue', marker='D',
+#                  supply='supply', x_name='input', y_name='output', clear = False):
+
+#Cat_control, data_payload['DMMCat'][0:5]
+# baby_plotter(data_0702_LC['HV']['DAC'], data_0702_LC['HV']['Voltage'],
+#               data_name='IU_0702_Large_Load', title=name, 
+#               xlabel='DAC Code', ylabel='DMM Volts', 
+#               x_name='DAC', y_name='DMM', supply='Cathode', clear=False)
 
 
 ##End of script##
