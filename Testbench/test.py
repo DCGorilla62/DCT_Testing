@@ -439,7 +439,7 @@ def plotter(x, y, name, title='title', xlabel='x_val', ylabel='y_val', supply='H
         # plt.savefig("test_plots/{0}_{1}_{2}_{3}_Hist_Std.png".format(name,supply,xlabel,ylabel),dpi=300)
         # plt.clf()
     
-    return
+    return theta
 
 def payload_plotter(x, y, name, title='title', xlabel='x_val', ylabel='y_val', supply='HV', x_name='input', y_name='data'):
     '''
@@ -490,7 +490,7 @@ def payload_plotter(x, y, name, title='title', xlabel='x_val', ylabel='y_val', s
     plt.clf()
     
     print('Done!')
-    return
+    return theta
 
 
 
@@ -1117,7 +1117,7 @@ name = 'Potential Supply'
 print("Potential Plots")
 #IU 0702 & Paylaod
 #DMM
-theta, theta1 = combo_plotter(data_0702_NP['HV']['DAC'], data_0702_NP['HV']['Voltage'], 
+DMM_theta, DMM_theta1 = combo_plotter(data_0702_NP['HV']['DAC'], data_0702_NP['HV']['Voltage'], 
                               Pot_Control, data_payload['DMMPot'][0:5], data_name='IU_0702_No_Load', 
                               data_name1='UC_Payload_No_Load', title=name, 
                               xlabel='DAC Code', ylabel='DMM Volts', 
@@ -1125,9 +1125,9 @@ theta, theta1 = combo_plotter(data_0702_NP['HV']['DAC'], data_0702_NP['HV']['Vol
 
 print("This is for IU 0702 & Payload")
 print("IU 0702")
-print(theta)
+print(DMM_theta)
 print("UC Payload")
-print(theta1)
+print(DMM_theta1)
 
 #ADC 
 combo_plotter(data_0702_NP['P']['DAC'], data_0702_NP['P']['ADC_Voltage'], Pot_Control, Pot_ADC,
@@ -1137,7 +1137,7 @@ combo_plotter(data_0702_NP['P']['DAC'], data_0702_NP['P']['ADC_Voltage'], Pot_Co
 
 #IU 0702 & 0722 & Payload
 #ADC 
-theta, theta1, theta2 = triple_plotter(data_0702_NP['P']['DAC'], data_0702_NP['P']['ADC_Voltage'], 
+ADC_theta, ADC_theta1, ADC_theta2 = triple_plotter(data_0702_NP['P']['DAC'], data_0702_NP['P']['ADC_Voltage'], 
                Pot_Control, Pot_ADC, data_0722_P['P']['DAC_Volts'], data_0722_P['P']['ADC_Voltage'], 
                data_name='IU_0702_No_Load', data_name1='UC_Payload_No_Load', data_name2='IU_0722_No_Load', 
                title=name, xlabel='DAC Code', ylabel='ADC Vmon Code', 
@@ -1145,12 +1145,48 @@ theta, theta1, theta2 = triple_plotter(data_0702_NP['P']['DAC'], data_0702_NP['P
 
 print("This is for ADC Vmon Code")
 print("IU 0702")
-print(theta)
+print(ADC_theta)
 print("UC Payload")
-print(theta1)
+print(ADC_theta1)
 print("IU 0722")
-print(theta2)
+print(ADC_theta2)
 ##############3
+
+'''
+Next need to find function from fitted parameters to go from DMM to ADC and ADC to DMM
+the 'theta' array above has index 0 for slope and index 1 for the offset
+
+the below should work for whatver supply you put in
+'''
+def ADC_to_DMM(DMM_theta, ADC_theta, ADC):
+    '''
+    You put in an ADC value.
+    You get out a DMM value
+    '''
+    DMM = (DMM_theta[0]/ADC_theta[0]) * (ADC - ADC_theta]1]) + DMM_theta[1] 
+    return DMM
+
+def DMM_to_ADC(ADC_theta, DMM_theta, DMM):
+    '''
+    You put in a DMM value.
+    You get out an ADC value.
+    '''
+    ADC = (ADC_theta[0]/DMM_theta[0]) * (DMM - DMM_theta[1] ) + ADC_theta[1] 
+    return ADC
+
+
+
+# def payload_plotter(x, y, name, title='title', xlabel='x_val', ylabel='y_val', supply='HV', x_name='input', y_name='data'):
+#     '''
+#     Simple plot maker. Will make a scatter plot and 
+#     fit the data with numpy.polyfit()
+#     '''
+
+
+# payload_plotter(     
+
+
+
 
 
 ##End of script##
